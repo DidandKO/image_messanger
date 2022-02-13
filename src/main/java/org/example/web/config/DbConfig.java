@@ -15,12 +15,12 @@ public class DbConfig {
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .generateUniqueName(false)
-                .setName("equipment-store")
+                .setName("messenger-db")
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("schema.sql")
+                .addScript("messageReference.sql")
+                .addScript("messages.sql")
+                .addScript("users_table.sql")
                 .addScript("data.sql")
-                .addScript("users.sql")
-                .addScript("data_users.sql")
                 .setScriptEncoding("UTF-8")
                 .ignoreFailedDrops(true)
                 .build();
