@@ -19,8 +19,9 @@ public class DbConfig {
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("messageReference.sql")
                 .addScript("messages.sql")
-                .addScript("users_table.sql")
-                .addScript("data.sql")
+                .addScript("users.sql")
+                .addScript("dialog.sql")
+//                .addScript("data.sql")
                 .setScriptEncoding("UTF-8")
                 .ignoreFailedDrops(true)
                 .build();

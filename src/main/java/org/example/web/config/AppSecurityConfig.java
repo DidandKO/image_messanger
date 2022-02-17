@@ -1,6 +1,5 @@
 package org.example.web.config;
 
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,11 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    Logger logger = Logger.getLogger(AppSecurityConfig.class);
-
     @Override
     public void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
-        logger.info("populate inmemory auth user");
+        // populate inmemory auth user
         auth
                 .inMemoryAuthentication()
                 .withUser("thuggeelya@mail.ru")
@@ -35,7 +32,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(@NotNull HttpSecurity http) throws Exception {
-        logger.info("config http security");
+        // config http security
         http.headers().frameOptions().disable();
         http
                 .csrf().disable()
@@ -46,13 +43,13 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login/auth")
-                .defaultSuccessUrl("/equipment/rent", true)
+                .defaultSuccessUrl("/im", true)
                 .failureUrl("/login");
     }
 
     @Override
     public void configure(@NotNull WebSecurity web) {
-        logger.info("config web security");
+        // config web security
         web
                 .ignoring()
                 .antMatchers("/images/**");
