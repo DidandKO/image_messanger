@@ -1,5 +1,6 @@
 package org.example.web.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dialog {
@@ -9,6 +10,22 @@ public class Dialog {
     private User partner;
     protected List<Message> messageList;
     private String subject;
+
+    private void isEmpty() {
+        if(messageList.isEmpty()) {
+            messageList = new ArrayList<>();
+        }
+    }
+
+    public void addMessage(Message message) {
+        isEmpty();
+        messageList.add(message);
+    }
+
+    public void deleteMessage(Message messageToDelete) {
+        isEmpty();
+        messageList.remove(messageToDelete);
+    }
 
     public int getDialog_id() {
         return dialog_id;
@@ -35,6 +52,7 @@ public class Dialog {
     }
 
     public List<Message> getMessageList() {
+        isEmpty();
         return messageList;
     }
 
@@ -57,7 +75,7 @@ public class Dialog {
                 ", dialogOwner=" + dialogOwner +
                 ", partner=" + partner +
                 ", subject='" + subject + '\'' +
-                ", numberOfMessages=" + messageList.size() +
+                ", numberOfMessages=" + getMessageList().size() +
                 '}';
     }
 }

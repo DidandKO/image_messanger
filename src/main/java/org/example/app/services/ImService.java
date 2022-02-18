@@ -8,6 +8,9 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
+import java.awt.*;
+import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.List;
 
@@ -39,5 +42,27 @@ public class ImService {
             return null;
         }
         return Base64.getDecoder().decode(text);
+    }
+
+    public Message createMessage(String messageBody) {
+        byte[] imageData = convertTextIntoImage(messageBody);
+        ImageIcon imageIcon = new ImageIcon(imageData);
+        Image image = imageIcon.getImage();
+
+        Message message = new Message();
+        message.setMessage_id(message.hashCode());
+        message.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        message.setBody(messageBody);
+        message.setImageBody(image);
+
+        return message;
+    }
+
+    public Dialog createDialog(User dialogOwner) {
+        Dialog dialog = new Dialog();
+        dialog.setDialog_id(dialog.hashCode());
+        dialog.setDialogOwner(dialogOwner);
+
+        return dialog;
     }
 }

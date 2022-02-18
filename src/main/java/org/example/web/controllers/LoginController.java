@@ -1,6 +1,5 @@
 package org.example.web.controllers;
 
-import org.example.app.services.SessionAttributes;
 import org.example.app.exceptions.MyLoginException;
 import org.example.app.services.LoginService;
 import org.example.web.dto.User;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(value = "login")
+@RequestMapping(value = "/login")
 public class LoginController {
 
     private LoginService loginService;
@@ -51,9 +50,8 @@ public class LoginController {
             throw new MyLoginException("User with this e-mail has already been registered");
         } else {
             request.getSession().setAttribute("login_user", user); // session user
-            // registration OK redirect to rent
+            // registration OK redirect to im
             return "redirect:/im";
         }
     }
-
 }

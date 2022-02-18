@@ -2,6 +2,8 @@ package org.example.web.controllers;
 
 import org.example.app.services.ImService;
 import org.example.app.services.SessionAttributes;
+import org.example.web.dto.Dialog;
+import org.example.web.dto.Message;
 import org.example.web.dto.User;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -12,11 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
 
 @Controller
 @RequestMapping(value = "/im")
@@ -39,8 +37,18 @@ public class ImController {
         return "im";
     }
 
+    @PostMapping("/create_dialog")
+    public String createDialog(@NotNull Model model, @NotNull HttpServletRequest request) {
+        User user = (User) SessionAttributes.getSessionAttribute(request,"login_user");
+        Dialog dialog = imService.createDialog(user);
+        user.addDialog(dialog);
+        request.getSession().setAttribute("login_user", user);
+        model.addAttribute("dialog", dialog);
+        return "redirect:/im/" + dialog.getDialog_id();
+    }
+
     @PostMapping("/open_dialog")
-    public String getDialog(@NotNull Model model) {
+    public String openDialog(@NotNull Model model) {
         return "redirect:/im/" + getDialogId(model);
     }
 
@@ -52,17 +60,40 @@ public class ImController {
         // js onClick() - open dialog fragment
     }
 
-    @PostMapping("")
-    public String sendMessage(@NotNull Model model) {
-        String newMessage = (String) model.getAttribute("newMessage");
-        byte[] imageData = imService.convertTextIntoImage(newMessage);
-        if (imageData == null) {
-            return "redirect:/im/" + getDialogId(model);
-        }
+    @PostMapping("/delete_dialog")
+    public String deleteDialog(@NotNull Model model, @NotNull HttpServletRequest request) {
+        User user = (User) SessionAttributes.getSessionAttribute(request,"login_user");
+        Dialog dialogToDelete = imService.getCurrentDialog(getDialogId(model), user);
+        user.deleteDialog(dialogToDelete);
+        return "redirect:/im";
+    }
 
-        ImageIcon imageIcon = new ImageIcon(imageData);
-        Image image = imageIcon.getImage();
-        model.addAttribute("image", image);
+    @PostMapping("/send_message")
+    public String sendMessage(@NotNull Model model, @NotNull HttpServletRequest request) {
+        User user = (User) SessionAttributes.getSessionAttribute(request,"login_user");
+        String messageBody = (String) model.getAttribute("messageBody");
+        Message message = imService.createMessage(messageBody);
+
+        Dialog dialogToUpdate = imService.getCurrentDialog(getDialogId(model), user);
+        Dialog newDialog = dialogToUpdate;
+        assert newDialog != null;
+        newDialog.addMessage(message);
+        user.updateDialog(dialogToUpdate, newDialog);
+        request.getSession().setAttribute("login_user", user);
+        return "redirect:/im/" + newDialog.getDialog_id();
+    }
+
+    @PostMapping("/delete_message")
+    public String deleteMessage(@NotNull Model model, @NotNull HttpServletRequest request) {
+        User user = (User) SessionAttributes.getSessionAttribute(request,"login_user");
+        Message messageToDelete = (Message) model.getAttribute("messageToDelete");
+
+        Dialog dialogToUpdate = imService.getCurrentDialog(getDialogId(model), user);
+        Dialog newDialog = dialogToUpdate;
+        assert newDialog != null;
+        newDialog.deleteMessage(messageToDelete);
+        user.updateDialog(dialogToUpdate, newDialog);
+        request.getSession().setAttribute("login_user", user);
         return "redirect:/im/" + getDialogId(model);
     }
 

@@ -1,5 +1,6 @@
 package org.example.web.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -12,6 +13,28 @@ public class User {
     private List<Dialog> dialogs;
     private int offlineTimeInMinutes;
 
+    private void isEmpty() {
+        if(dialogs.isEmpty()) {
+            dialogs = new ArrayList<>();
+        }
+    }
+
+    public void addDialog(Dialog dialog) {
+        isEmpty();
+        dialogs.add(dialog);
+    }
+
+    public void updateDialog(Dialog dialogToUpdate, Dialog newDialog) {
+        isEmpty();
+        int dialogIndex = dialogs.indexOf(dialogToUpdate);
+        dialogs.set(dialogIndex, newDialog);
+    }
+
+    public void deleteDialog(Dialog dialogToDelete) {
+        isEmpty();
+        dialogs.remove(dialogToDelete);
+    }
+
     public int getOfflineTimeInMinutes() {
         return offlineTimeInMinutes;
     }
@@ -21,6 +44,7 @@ public class User {
     }
 
     public List<Dialog> getDialogs() {
+        isEmpty();
         return dialogs;
     }
 
