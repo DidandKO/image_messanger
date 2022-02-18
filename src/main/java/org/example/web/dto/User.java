@@ -10,6 +10,15 @@ public class User {
     private String name;
     private String lastName;
     private List<Dialog> dialogs;
+    private int offlineTimeInMinutes;
+
+    public int getOfflineTimeInMinutes() {
+        return offlineTimeInMinutes;
+    }
+
+    public void setOfflineTimeInMinutes(int offlineTimeInMinutes) {
+        this.offlineTimeInMinutes = offlineTimeInMinutes;
+    }
 
     public List<Dialog> getDialogs() {
         return dialogs;
@@ -67,6 +76,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", offlineTimeInMinutes=" + offlineTimeInMinutes +
                 '}';
     }
 }

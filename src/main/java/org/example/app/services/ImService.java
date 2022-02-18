@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -20,11 +21,23 @@ public class ImService {
     }
 
     @Nullable
-    public List<Message> messageList(int dialog_id, @NotNull User user) {
+    public List<Message> messageList(int dialogId, @NotNull User user) {
+        return (getCurrentDialog(dialogId, user) != null) ? getCurrentDialog(dialogId, user).getMessageList() : null;
+    }
+
+    @Nullable
+    public Dialog getCurrentDialog(int dialogId, @NotNull User user) {
         for (Dialog dialog : user.getDialogs())
-            if (dialog.getDialog_id() == dialog_id) {
-                return dialog.getMessageList();
+            if (dialog.getDialog_id() == dialogId) {
+                return dialog;
             }
         return null;
+    }
+
+    public byte[] convertTextIntoImage(String text) {
+        if (text == null) {
+            return null;
+        }
+        return Base64.getDecoder().decode(text);
     }
 }
