@@ -17,7 +17,6 @@ public class DbConfig {
                 .generateUniqueName(false)
                 .setName("messenger-db")
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("messageReference.sql")
                 .addScript("messages.sql")
                 .addScript("users.sql")
                 .addScript("dialog.sql")
