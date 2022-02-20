@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link href="../css/main.css" rel="stylesheet">
+  <link href="../fonts/font_styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="footer">
+    <div class="main_logo">
+      <img th:src="@{images/main_logo.svg}" alt="No image">
+    </div>
+    <div class="footer_info">
+      <span>Функции</span>
+      <span>Безопасность</span>
+      <span>О нас</span>
+    </div>
+    <div class="signinup">
+        <a href="login_page.html"><input type="button" value="Вход" id="login_page_id"></a>
+        <a href="register_page.html"><input type="button" value="Регистрация" id="signup_page_id"></a>
+    </div>
+
+  </div>
+    <div class="main_info">
+        <div class="container">
+                <h1>где и когда угодно</h1>
+                <h3>Pic</h3>
+                <input type="button" value="Присоединяйтесь">
+        </div>
+        <div class="main_img">
+            <img th:src="@{images/first_image.png}" alt="first_image">
+        </div>
+    </div>
+
+</body>
+</html>

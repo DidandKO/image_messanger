@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="../css/login.css" rel="stylesheet">
+    <link href="../fonts/font_styles.css" rel="stylesheet">
 </head>
 <body>
-
+<div class="block">
+    <div class="content">
+        <div class="logo"><a href="main.html"><img th:src="@{/images/logo.svg}" alt="logo"></a></div>
+        <h1>ВХОД</h1>
+        <div class="line_block">
+            <img th:src="@{images/user.svg}" alt="">
+            <input type="text" id="login_id" placeholder="Логин">
+        </div>
+        <div class="line_block">
+            <img th:src="@{/images/password.svg}" alt="">
+            <input type="password" id="password_id" placeholder="Пароль">
+        </div>
+        <div class="remember">
+            <form>
+                <input id="remember_id" type="checkbox">
+                <label for="remember_id">Запомнить меня</label>
+            </form>
+        </div>
+        <div class="container">
+            <div class="but_rem">
+                <div class="but">
+                    <input type="button" value="Войти" id="but_log_id"/>
+                </div>
+                <div class="rem_pas">
+                    <a href="https://www.youtube.com/watch?v=QhWPeEJbRp0"><span>Забыли пароль?</span></a>
+                    <a href="register_page.html"><span>Не зарегистрировались?</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
