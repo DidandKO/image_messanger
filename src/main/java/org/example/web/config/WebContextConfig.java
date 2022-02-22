@@ -28,6 +28,7 @@ public class WebContextConfig implements WebMvcConfigurer {
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML5");
+        templateResolver.setCharacterEncoding("UTF-8");
 
         return templateResolver;
     }

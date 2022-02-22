@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(value = "/login")
 public class LoginController {
 
     private LoginService loginService;
@@ -26,14 +25,14 @@ public class LoginController {
     }
 
     @NotNull
-    @GetMapping()
-    private String login(@NotNull Model model) {
+    @GetMapping("/login")
+    private String getLogin(@NotNull Model model) {
         model.addAttribute("user", new User());
         return "login_page";
     }
 
     @NotNull
-    @PostMapping("/auth")
+    @PostMapping("/login/auth")
     private String authenticate(@ModelAttribute("login_user") User user, HttpServletRequest request) throws MyLoginException {
         if (loginService.authenticate(user)) {
             request.getSession().setAttribute("login_user", user); // session user
@@ -43,7 +42,14 @@ public class LoginController {
         }
     }
 
-    @PostMapping("/register")
+    @NotNull
+    @GetMapping("/register")
+    private String getRegister(@NotNull Model model) {
+        model.addAttribute("user", new User());
+        return "register_page";
+    }
+
+    @PostMapping("/register/auth")
     public String register(@ModelAttribute("login_user") User user, @NotNull HttpServletRequest request) throws MyLoginException {
         if (loginService.register(user)) {
             // registration fail back to login

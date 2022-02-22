@@ -6,5 +6,6 @@ CREATE TABLE users_table
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    lastname VARCHAR(255) NOT NULL
+    lastname VARCHAR(255) NOT NULL,
+    offline_time_in_minutes INT NOT NULL
 );

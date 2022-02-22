@@ -4,6 +4,5 @@ CREATE TABLE messages
 (
     message_id INT PRIMARY KEY,
     timestamp TIMESTAMP NOT NULL,
-    body VARCHAR(4095) NOT NULL,
-    subject VARCHAR(255)
+    body VARCHAR(4095) NOT NULL
 );
