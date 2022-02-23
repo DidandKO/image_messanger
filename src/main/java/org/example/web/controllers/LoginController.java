@@ -10,14 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class LoginController {
 
-    private LoginService loginService;
+    private final LoginService loginService;
 
     @Autowired
     public LoginController(LoginService loginService) {
@@ -26,14 +25,14 @@ public class LoginController {
 
     @NotNull
     @GetMapping("/login")
-    private String getLogin(@NotNull Model model) {
+    public String getLoginPage(@NotNull Model model) {
         model.addAttribute("user", new User());
         return "login_page";
     }
 
     @NotNull
     @PostMapping("/login/auth")
-    private String authenticate(@ModelAttribute("login_user") User user, HttpServletRequest request) throws MyLoginException {
+    public String authenticate(@ModelAttribute("login_user") User user, HttpServletRequest request) throws MyLoginException {
         if (loginService.authenticate(user)) {
             request.getSession().setAttribute("login_user", user); // session user
             return "redirect:/im";
@@ -44,7 +43,7 @@ public class LoginController {
 
     @NotNull
     @GetMapping("/register")
-    private String getRegister(@NotNull Model model) {
+    public String getRegisterPage(@NotNull Model model) {
         model.addAttribute("user", new User());
         return "register_page";
     }

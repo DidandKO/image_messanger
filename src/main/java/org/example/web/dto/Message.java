@@ -9,9 +9,18 @@ import java.util.Comparator;
 public class Message implements Comparator<Message> {
 
     private int message_id;
+    private int dialog_id;
     private Timestamp timestamp;
     private String body;
     private Image imageBody;
+
+    public int getDialog_id() {
+        return dialog_id;
+    }
+
+    public void setDialog_id(int dialog_id) {
+        this.dialog_id = dialog_id;
+    }
 
     public Image getImageBody() {
         return imageBody;

@@ -145,27 +145,29 @@
 <div class="block">
     <div class="content">
         <div class="logo"><a href="main.html"><img th:src="@{/images/logo.svg}" alt="logo"></a></div>
+    <form method="post" th:action="@{/register/auth}" th:object="${user}">
         <h1>РЕГИСТРАЦИЯ</h1>
         <div class="line_block">
             <img th:src="@{/images/user.svg}" alt="user">
-            <input type="text" id="signup_id" placeholder="Придумайте логин">
+            <input type="text" th:field="*{email}" id="signup_id" placeholder="Придумайте логин" required>
         </div>
         <div class="line_block">
             <img th:src="@{/images/password.svg}" alt="password">
-            <input type="password" id="password_id" placeholder="Придумайте пароль">
+            <input type="password" th:field="*{password}" id="password_id" placeholder="Придумайте пароль" required>
         </div>
         <div class="line_block">
             <img th:src="@{/images/password.svg}" alt="password">
-            <input type="password" id="repassword_id" placeholder="Повторите еще раз">
+            <input type="password" id="repassword_id" placeholder="Повторите еще раз" required>
         </div>
         <div class="container">
             <div class="but_rem"><div class="but">
-                <input type="button" value="Зарегистрироваться" id="but_signup_id"/>
+                <input type="submit" value="Зарегистрироваться" id="but_signup_id"/>
             </div>
                 <div class="rem_pas">
                     <a href="login_page.html"><span>Уже зарегистрированы?</span></a>
                 </div></div>
         </div>
+    </form>
     </div>
 </div>
 </body>

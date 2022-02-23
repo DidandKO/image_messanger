@@ -18,7 +18,7 @@ public class MainController {
     }
 
     @GetMapping()
-    public String getMain() {
+    public String getMainPage() {
         return "main";
     }
 }

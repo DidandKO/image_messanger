@@ -10,9 +10,26 @@ public class Dialog {
     private User partner;
     protected List<Message> messageList;
     private String subject;
+    private int newMessagesCount;
+
+    public Dialog() {
+        this.newMessagesCount = 0;
+    }
+
+    public int getNewMessagesCount() {
+        return newMessagesCount;
+    }
+
+    public void setNewMessagesCount(int newMessagesCount) {
+        this.newMessagesCount = newMessagesCount;
+    }
+
+    public void incNewMessagesCount() {
+        this.newMessagesCount++;
+    }
 
     private void isEmpty() {
-        if(messageList.isEmpty()) {
+        if(messageList == null) {
             messageList = new ArrayList<>();
         }
     }

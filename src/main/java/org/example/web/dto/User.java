@@ -1,5 +1,6 @@
 package org.example.web.dto;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +13,20 @@ public class User {
     private String lastName;
     private List<Dialog> dialogs;
     private int offlineTimeInMinutes;
+    private Image avatar;
 
     private void isEmpty() {
-        if(dialogs.isEmpty()) {
+        if(dialogs == null) {
             dialogs = new ArrayList<>();
         }
+    }
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
     }
 
     public void addDialog(Dialog dialog) {
