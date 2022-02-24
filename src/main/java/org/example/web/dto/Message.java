@@ -13,6 +13,8 @@ public class Message implements Comparator<Message> {
     private Timestamp timestamp;
     private String body;
     private Image imageBody;
+    private byte[] byte_code;
+    private String imageSrc;
 
     public int getDialog_id() {
         return dialog_id;
@@ -20,6 +22,22 @@ public class Message implements Comparator<Message> {
 
     public void setDialog_id(int dialog_id) {
         this.dialog_id = dialog_id;
+    }
+
+    public byte[] getByte_code() {
+        return byte_code;
+    }
+
+    public void setByte_code(byte[] byte_code) {
+        this.byte_code = byte_code;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 
     public Image getImageBody() {

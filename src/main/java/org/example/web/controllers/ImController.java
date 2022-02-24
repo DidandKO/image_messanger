@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping(value = "/im")
 public class ImController {
@@ -32,8 +34,13 @@ public class ImController {
     }
 
     @PostMapping("/create_dialog")
-    public String createDialog(@NotNull Model model, @SessionAttribute("login_user") User user) {
-        Dialog dialog = imService.createDialog(user);
+    public String createDialog(@NotNull Model model,
+                               @SessionAttribute("login_user") User user,
+                               @ModelAttribute("partner") String partnerLogin,
+                               @ModelAttribute("subject") String subject)
+    {
+        User partner = imService.getUserByLogin(partnerLogin);
+        Dialog dialog = imService.createDialog(user, partner, subject);
         user.addDialog(dialog);
         model.addAttribute("dialog", dialog);
         return "redirect:/im/" + dialog.getDialog_id();
@@ -64,7 +71,8 @@ public class ImController {
     @PostMapping("/send_message")
     public String sendMessage(@NotNull Model model,
                               @ModelAttribute("messageBody") String messageBody,
-                              @SessionAttribute("login_user") User user) {
+                              @SessionAttribute("login_user") User user) throws IOException
+    {
         Dialog dialogToUpdate = imService.getCurrentDialogById(getDialogId(model), user);
         assert dialogToUpdate != null;
         Message message = imService.createMessage(messageBody, dialogToUpdate);
@@ -77,7 +85,8 @@ public class ImController {
     @PostMapping("/delete_message")
     public String deleteMessage(@NotNull Model model,
                                 @ModelAttribute("messageToDelete") Message messageToDelete,
-                                @SessionAttribute("login_user") User user) {
+                                @SessionAttribute("login_user") User user)
+    {
         Dialog dialogToUpdate = imService.getCurrentDialogById(getDialogId(model), user);
         Dialog newDialog = dialogToUpdate;
         assert newDialog != null;
