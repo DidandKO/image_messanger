@@ -41,7 +41,7 @@ public class ImService {
                             null;
     }
 
-    @Nullable
+    @Nullable("No suck dialog")
     public Dialog getCurrentDialogById(int dialogId, @NotNull User user) {
         for (Dialog dialog : user.getDialogs())
             if (dialog.getDialog_id() == dialogId) {
@@ -57,6 +57,12 @@ public class ImService {
         jdbcTemplate.query("SELECT * FROM users_table", (ResultSet rs, int rowNum) -> {
             User tempUser = new User();
             if (rs.getString("email").equals(login)) {
+                tempUser.setUser_id(rs.getInt("user_id"));
+                tempUser.setEmail(rs.getString("email"));
+                tempUser.setPassword(rs.getString("password"));
+                tempUser.setName(rs.getString("name"));
+                tempUser.setLastName(rs.getString("lastname"));
+                tempUser.setOfflineTimeInMinutes(rs.getInt("offline_time_in_minutes"));
                 user.set(tempUser);
             }
             return user;

@@ -3,8 +3,504 @@
 <head>
     <meta charset="UTF-8">
     <title>Диалоги</title>
-</head>
-<body>
+    <link href="../../css/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../fonts/font_styles.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        window.onload = unit;
+        function unit() {
 
+            let button_add_chat = document.getElementById('add_chat_id');
+            let field_creating_chat = document.getElementById('creating_chat');
+            let nav_menu = document.getElementById('nav_menu_id');
+            let burger_logo = document.getElementById('burger_logo_id');
+
+            button_add_chat.addEventListener('click', function () {
+                field_creating_chat.style.display = 'block';
+            });
+            let button_creating_chat = document.getElementById("creating_chat_id");
+
+            button_creating_chat.addEventListener("click", function () {
+                field_creating_chat.style.display = 'none';
+                document.getElementById('title_chat_id').innerText = document.getElementById('text_id').value;
+            });
+
+            document.addEventListener('click', (e) => {
+                const withinCreatingChat = e.composedPath().includes(field_creating_chat);
+                const withinButton = e.composedPath().includes(button_add_chat);
+                const withinNavMenu = e.composedPath().includes(nav_menu);
+                const withinBurger = e.composedPath().includes(burger_logo);
+
+                if ((!withinCreatingChat) && (!withinButton)) {
+                    field_creating_chat.style.display = 'none';
+                }
+                if ((!withinNavMenu) && (!withinBurger)){
+                    nav_menu.style.display = 'none';
+                }
+
+                // if(document.getElementById('chat_info_id').childNodes.length > 0){
+                //     document.getElementById('hello_logo_id').style.display = 'none';
+                //     document.getElementById('chat_field_id').style.display = 'block';
+                // }
+            });
+
+            burger_logo.addEventListener('click', function (){
+
+                nav_menu.style.display = 'block';
+
+            });
+            let burger_logo_user = document.getElementById('burger_logo_user');
+            burger_logo_user.addEventListener('click', function (){
+
+                nav_menu.style.display = 'none';
+
+            });
+        }
+    </script>
+</head>
+<style>
+    body{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-family: Montserrat, serif;
+    }
+    ::-webkit-scrollbar {
+        width: 0;
+    }
+    .all_chat{
+        display: flex;
+
+    }
+    .chatroom{
+        width: 32%;
+        height: 100vh;
+        background: linear-gradient(135deg, #636DEA 400px, #EA636D);
+        overflow: scroll;
+    }
+    .searchchat{
+        width: 100%;
+        height: 73px;
+        display: flex;
+    }
+    .container{
+        margin: auto;
+        display: flex;
+        width: 433px;
+    }
+    .burger_logo{
+        margin:auto;
+    }
+    .burger_logo img{
+        width: 37px;
+    }
+    .search_input{
+        display: flex;
+        border-radius: 40px;
+        border: 3px solid #B8BBE1;
+        margin: 0;
+        padding: 0;
+    }
+    .search_input input{
+        height:45px;
+        width: 320px;
+        border-radius: 0 40px 40px 0;
+        outline: none;
+        border:none;
+        background: #FFF;
+        padding: 0;
+        margin: 0;
+        font-family: Montserrat;
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .search_input button{
+        width: 52px;
+        height: 45px;
+        border-radius: 40px 0 0 40px;
+        background: #FFF;
+        border:none;
+        outline: none;
+        padding: 0;
+        margin: 0;
+    }
+    .search_input button img{
+        width: 24px;
+    }
+    .add_chat{
+        position: fixed;
+        bottom: 40px;
+        left: 200px;
+        margin-top: 18px;
+        text-align: center;
+    }
+    .add_chat button{
+        background-color: rgba(0,0,0,0);
+        border:none;
+        width: 80px;
+        height: 80px;
+    }
+    .add_chat img:hover{
+        filter: brightness(30%);
+    }
+    .container_chat_info{
+        display: flex;
+    }
+    .chat_info .container{
+        margin: 0;
+        width: 100%;
+        height: 95px;
+    }
+    .chat_info .chat_logo{
+        width: 23%;
+        height: 95px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .chat_info .chat_logo img{
+        width: 65px;
+    }
+    .chat_info .description{
+        width: 57%;
+        height: 95px;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+    .container_description{
+
+    }
+    .chat_info .title{
+        text-align: start;
+        font-size: 16px;
+        font-weight: 600;
+        color: #FFFFFF;
+    }
+    .chat_info .subtitle{
+        text-align: start;
+        font-size: 15px;
+        font-weight: 500;
+        color: rgba(255,255,255, 0.7);
+    }
+    .chat_info .measurement{
+        height: 95px;
+        width: 20%;
+        font-size: 14px;
+        color: #FFFFFF;
+        font-weight: normal;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .circle{
+        color: #636DEA;
+        font-size: 14px;
+        font-weight: 500;
+        width:25px;
+        height: 25px;
+        border-radius: 50%;
+        background: rgba(255,255,255,1);
+        display: flex;
+    }
+    .circle p{
+        display: block;
+        margin: auto;
+    }
+    .creating_chat{
+        position: fixed;
+        display: none;
+        width:231px;
+        left: 120px;
+        bottom: 140px;
+        height: 324px;
+        background: #FFFFFF;
+        margin: auto;
+        border-radius: 17px;
+    }
+    .container_creating_chat{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 100%;
+    }
+    .container_creating_chat .input_wrapper{
+        height: 22px;
+        width: 180px;
+        border-bottom: 1px solid rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .container_creating_chat input{
+        font-family: Montserrat;
+        outline: none;
+        border: none;
+        font-size: 13px;
+        font-width: normal;
+        color: #343657;
+    }
+    .title_creating_chat{
+        font-size: 16px;
+        font-weight: 600;
+        color: #343657;
+    }
+    .container_creating_chat button{
+        width: 175px;
+        height: 41px;
+        border-radius: 19px;
+        background: linear-gradient(147deg, #636DEA, #EA636D);
+        outline: none;
+        box-shadow: none;
+        border:none;
+        color: #FFFFFF;
+        font-size: 14px;
+        font-family: Montserrat;
+        font-weight: 500;
+    }
+    #chat_field_id{
+        width: 68%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+    #hello_logo_id{
+        display: flex;
+        align-items: center;
+        height: 63px;
+    }
+    .hello_logo img{
+        width: 63px;
+    }
+    .hello_logo h2{
+        font-size: 15px;
+        font-weight: 500;
+    }
+    .hello_logo h3{
+        font-size: 15px;
+        font-weight: normal;
+    }
+    #chat_field_wrapper_id{
+        display: none;
+    }
+    .chat_name{
+        width: 100%;
+        display: flex;
+        height: 73px;
+        background: #636DEA;
+        font-size: 20px;
+        font-width: 600;
+        color: #FFFFFF;
+        align-items: center;
+        justify-content: center;
+
+    }
+    .message-field{
+        width: 100%;
+
+    }
+    .chat-panel-wrapper{
+        position: absolute;
+        width: 68%;
+        bottom: 0;
+        height: 73px;
+        background: linear-gradient(258deg, #636DEA, #EA636D);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .chat-panel-wrapper input{
+        font-family: Montserrat;
+        font-size: 18px;
+        font-weight: normal;
+        width: 953px;
+        height: 39px;
+        border-radius: 8px;
+        border: none;
+        box-shadow: none;
+    }
+    .chat-panel-wrapper button{
+        display: flex;
+        align-items: center;
+        outline: none;
+        border: none;
+        box-shadow: none;
+        width: 39px;
+        height: 39px;
+        background: none;
+    }
+    .chat-panel-wrapper button img{
+        width: 39px;
+    }
+    #nav_menu_id{
+        display: none;
+        color: #000000;
+        font-family: Montserrat;
+        font-size: 15px;
+        font-weight: normal;
+        position: fixed;
+        width: 23%;
+        height: 100vh;
+        background: #FFF;
+        box-shadow: 15px 1px 16px 8px rgb(0 0 0 / 19%);
+    }
+    .user_logo{
+        height: 124px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .user_logo img{
+        width: 86px;
+    }
+    .user_name{
+        font-size: 15px;
+        font-weight: normal;
+        text-align: center;
+        height: 50px;
+    }
+    .block-wrapper{
+        width: 240px;
+        height: 220px;
+        margin:auto;
+    }
+    .block-wrapper .nav_block{
+        height: 55px;
+        display: flex;
+        align-items: center;
+    }
+    .nav_block a{
+        text-decoration: none;
+        margin-left: 10px;
+    }
+    #burger_logo_user{
+        position: absolute;
+        left:38px;
+        top: 16px;
+    }
+    #burger_logo_user img{
+        width: 37px;
+        stroke: #636DEA;
+    }
+    @font-face {
+        font-family: "Montserrat";
+        src: url("/fonts/Montserrat/static/Montserrat-SemiBold.ttf") format("truetype");
+        font-style: normal;
+        font-weight: 600;
+    }
+    @font-face {
+        font-family: "Montserrat";
+        src: url("/fonts/Montserrat/static/Montserrat-Medium.ttf") format("truetype");
+        font-style: normal;
+        font-weight: 500;
+    }
+    @font-face {
+        font-family: "Montserrat";
+        src: url("/fonts/Montserrat/static/Montserrat-Regular.ttf") format("truetype");
+        font-style: normal;
+        font-weight: normal;
+    }
+</style>
+<body>
+    <div class="all_chat">
+        <div class="chatroom" id="chat_room_id">
+            <div class="nav_menu" id="nav_menu_id">
+                <div class="user_logo">
+                    <div class="burger_logo" id="burger_logo_user">
+                        <img th:src="@{/images/burger_gray.svg}" alt="">
+                    </div>
+                    <img th:src="@{/images/Ellipse_logo.png}" alt="">
+                </div>
+                <div class="user_name">
+                    <h3 th:text="${user.email}"></h3>
+                </div>
+                <div class="block-wrapper"><div class="nav_block"><img th:src="@{/images/settings.svg}" alt=""><a href="">Настройки</a></div>
+                    <div class="nav_block"><img th:src="@{/images/lang.svg}" alt=""><a href="">Язык</a></div>
+                    <div class="nav_block"><img th:src="@{/images/creating_chat.svg}" alt=""><a href="">Создать новый чат</a></div>
+                    <div class="nav_block"><img th:src="@{/images/about_us.svg}" alt=""><a href="">О нас</a></div>
+                </div>
+            </div>
+            <div class="searchchat">
+                <div class="container">
+                    <div class="burger_logo" id="burger_logo_id"><img th:src="@{/images/burger.svg}" alt=""></div>
+                    <div class="search_input">
+                        <button id="search_but_id" class="search_but"><img th:src="@{/images/search_but.svg}" alt=""></button>
+                        <input type="text" placeholder="Поиск">
+                    </div>
+                </div>
+            </div>
+
+<!--        ВСТАВКА ЧАТА-->
+            <div class="chats" th:each="user_dialog : ${dialog_list}">
+                <div class="chat_info" id="chat_info_id">
+                <div class="container_chat_info" th:id="${user_dialog.dialog_id}" onclick="openChat(this, this.id)">
+                    <div class="chat_logo">
+                        <img th:src="@{/images/Ellipse.png}" alt="">
+                    </div>
+                    <div class="description">
+                        <div class="container_description">
+                            <div class="title" id="title_chat_id" th:text="${user_dialog.subject}">Название чата</div>
+                            <div class="subtitle" th:if="${not #lists.isEmpty(user_dialog.messageList)}" th:text="${user_dialog.messageList[__${#lists.size(user_dialog.messageList)-1}__].body}"></div>
+                            <div class="subtitle" th:if="${#lists.isEmpty(user_dialog.messageList)}" id="subtitle_chat_id">Нет сообщений</div>
+                        </div>
+                    </div>
+                    <div class="measurement">
+                        <div class="data">17.02.2022</div>
+                        <div class="counter">
+                            <div th:if="${user_dialog.newMessagesCount} > 0" class="circle"><p th:text="${user_dialog.newMessagesCount}"></p></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+<!--        ВСТАВКА ЧАТА-->
+
+            <div class="add_chat"><button id="add_chat_id">
+                <img th:src="@{/images/add_chat.svg}" alt=""></button>
+            </div>
+
+                <form method="post" th:action="@{/im/create_dialog}" th:object="${new_dialog}">
+                    <div class="creating_chat_wrapper">
+                        <div class="creating_chat" id="creating_chat">
+                            <div class="container_creating_chat">
+                                <div class="logo"><img th:src="@{/images/logo.svg}" alt=""></div>
+                                <div class="title_creating_chat"><p>Создание чата</p></div>
+                                <div class="input_wrapper">
+                                    <input type="text" id="text_id" th:field="*{subject}" placeholder="Введите название чата" required>
+                                </div>
+                                <div class="input_wrapper">
+                                    <input type="text" th:field="*{partner.email}" placeholder="Введите собеседника" required>
+                                </div>
+                                <input type="submit" id="creating_chat_id">Создать</input>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+        </div>
+
+        <div class="chat_field" id="chat_field_id">
+
+            <div class="hello_logo" id="hello_logo_id">
+                <img th:src="@{/images/logo.svg}" alt="">
+                <h2 th:text="${user.name} ?: ${user.email} + ',&nbsp'"></h2>
+                <h3>общайтесь на здоровье</h3>
+            </div>
+
+            <div class="chat-field-wrapper" id="chat_field_wrapper_id"></div>
+
+        </div>
+    </div>
+
+    <script>
+        function openChat(element, dialog_id) {
+            $("#chat_field_wrapper_id").css("display", "block");
+            let url = "/image_messanger_war_exploded/im/" + dialog_id;
+            $("#chat_field_wrapper_id").load(url);
+        }
+    </script>
 </body>
 </html>

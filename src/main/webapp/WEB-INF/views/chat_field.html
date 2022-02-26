@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div th:fragment="chat_field_fragment">
+        <div id="chat" th:object="${dialog}">
+            <div class="chat_name" id="chat_name_id" th:text="${dialog.subject}">Название чата</div>
+            <div class="message-field"></div>
+            <div class="chat-panel">
+                <div class="chat-panel-wrapper">
+                    <input type="text" placeholder="Напиши что-нибудь">
+                    <button><img th:src="@{/images/message_send.svg}" alt=""></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

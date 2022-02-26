@@ -1,0 +1,326 @@
+body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: Montserrat, serif;
+}
+::-webkit-scrollbar {
+    width: 0;
+}
+.all_chat{
+    display: flex;
+
+}
+.chatroom{
+    width: 32%;
+    height: 100vh;
+    background: linear-gradient(135deg, #636DEA 400px, #EA636D);
+    overflow: scroll;
+}
+.searchchat{
+    width: 100%;
+    height: 73px;
+    display: flex;
+}
+.container{
+    margin: auto;
+    display: flex;
+    width: 433px;
+}
+.burger_logo{
+    margin:auto;
+}
+.burger_logo img{
+    width: 37px;
+}
+.search_input{
+    display: flex;
+    border-radius: 40px;
+    border: 3px solid #B8BBE1;
+    margin: 0;
+    padding: 0;
+}
+.search_input input{
+    height:45px;
+    width: 320px;
+    border-radius: 0 40px 40px 0;
+    outline: none;
+    border:none;
+    background: #FFF;
+    padding: 0;
+    margin: 0;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+}
+.search_input button{
+    width: 52px;
+    height: 45px;
+    border-radius: 40px 0 0 40px;
+    background: #FFF;
+    border:none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+.search_input button img{
+    width: 24px;
+}
+.add_chat{
+    position: fixed;
+    bottom: 40px;
+    left: 200px;
+    margin-top: 18px;
+    text-align: center;
+}
+.add_chat button{
+    background-color: rgba(0,0,0,0);
+    border:none;
+    width: 80px;
+    height: 80px;
+}
+.add_chat img:hover{
+    filter: brightness(30%);
+}
+.container_chat_info{
+    display: flex;
+}
+.chat_info .container{
+    margin: 0;
+    width: 100%;
+    height: 95px;
+}
+.chat_info .chat_logo{
+    width: 23%;
+    height: 95px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.chat_info .chat_logo img{
+    width: 65px;
+}
+.chat_info .description{
+    width: 57%;
+    height: 95px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+.container_description{
+
+}
+.chat_info .title{
+    text-align: start;
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+.chat_info .subtitle{
+    text-align: start;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255,255,255, 0.7);
+}
+.chat_info .measurement{
+    height: 95px;
+    width: 20%;
+    font-size: 14px;
+    color: #FFFFFF;
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.circle{
+    color: #636DEA;
+    font-size: 14px;
+    font-weight: 500;
+    width:25px;
+    height: 25px;
+    border-radius: 50%;
+    background: rgba(255,255,255,1);
+    display: flex;
+}
+.circle p{
+    display: block;
+    margin: auto;
+}
+.creating_chat{
+    position: fixed;
+    display: none;
+    width:231px;
+    left: 120px;
+    bottom: 140px;
+    height: 324px;
+    background: #FFFFFF;
+    margin: auto;
+    border-radius: 17px;
+}
+.container_creating_chat{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+}
+.container_creating_chat .input_wrapper{
+    height: 22px;
+    width: 180px;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container_creating_chat input{
+    font-family: Montserrat;
+    outline: none;
+    border: none;
+    font-size: 13px;
+    font-width: normal;
+    color: #343657;
+}
+.title_creating_chat{
+    font-size: 16px;
+    font-weight: 600;
+    color: #343657;
+}
+.container_creating_chat button{
+    width: 175px;
+    height: 41px;
+    border-radius: 19px;
+    background: linear-gradient(147deg, #636DEA, #EA636D);
+    outline: none;
+    box-shadow: none;
+    border:none;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-family: Montserrat;
+    font-weight: 500;
+}
+#chat_field_id{
+    width: 68%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+#hello_logo_id{
+    display: flex;
+    align-items: center;
+    height: 63px;
+}
+.hello_logo img{
+    width: 63px;
+}
+.hello_logo h2{
+    font-size: 15px;
+    font-weight: 500;
+}
+.hello_logo h3{
+    font-size: 15px;
+    font-weight: normal;
+}
+#chat_field_wrapper_id{
+    display: none;
+}
+.chat_name{
+    width: 100%;
+    display: flex;
+    height: 73px;
+    background: #636DEA;
+    font-size: 20px;
+    font-width: 600;
+    color: #FFFFFF;
+    align-items: center;
+    justify-content: center;
+
+}
+.message-field{
+    width: 100%;
+
+}
+.chat-panel-wrapper{
+    position: absolute;
+    width: 68%;
+    bottom: 0;
+    height: 73px;
+    background: linear-gradient(258deg, #636DEA, #EA636D);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.chat-panel-wrapper input{
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: normal;
+    width: 953px;
+    height: 39px;
+    border-radius: 8px;
+    border: none;
+    box-shadow: none;
+}
+.chat-panel-wrapper button{
+    display: flex;
+    align-items: center;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    width: 39px;
+    height: 39px;
+    background: none;
+}
+.chat-panel-wrapper button img{
+    width: 39px;
+}
+#nav_menu_id{
+    display: none;
+    color: #000000;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-weight: normal;
+    position: fixed;
+    width: 23%;
+    height: 100vh;
+    background: #FFF;
+    box-shadow: 15px 1px 16px 8px rgb(0 0 0 / 19%);
+}
+.user_logo{
+    height: 124px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user_logo img{
+    width: 86px;
+}
+.user_name{
+    font-size: 15px;
+    font-weight: normal;
+    text-align: center;
+    height: 50px;
+}
+.block-wrapper{
+    width: 240px;
+    height: 220px;
+    margin:auto;
+}
+.block-wrapper .nav_block{
+    height: 55px;
+    display: flex;
+    align-items: center;
+}
+.nav_block a{
+    text-decoration: none;
+    margin-left: 10px;
+}
+#burger_logo_user{
+    position: absolute;
+    left:38px;
+    top: 16px;
+}
+#burger_logo_user img{
+    width: 37px;
+    stroke: #636DEA;
+}

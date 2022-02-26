@@ -110,7 +110,7 @@ input::-webkit-input-placeholder{
 #remember_id:checked+label::before {
     border-color: #0b76ef;
     background-color: #444cb1;
-    background-image: url("images/flag.svg");
+    background-image: url("../../resources/images/flag.svg");
 }
 #remember_id:not(:disabled):not(:checked)+label:before {
     border-color: #b3d7ff;
