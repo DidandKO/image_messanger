@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.logging.Logger;
 
 @Controller
 public class LoginController {
 
     private final LoginService loginService;
+    Logger logger = Logger.getLogger("logger");
 
     @Autowired
     public LoginController(LoginService loginService) {
@@ -32,9 +34,11 @@ public class LoginController {
 
     @NotNull
     @PostMapping("/login/auth")
-    public String authenticate(@ModelAttribute("login_user") User user, HttpServletRequest request) throws MyLoginException {
+    public String authenticate(@ModelAttribute("user") User user, HttpServletRequest request) throws MyLoginException {
         if (loginService.authenticate(user)) {
+            user = loginService.findRegisteredUserByLogin(user.getEmail());
             request.getSession().setAttribute("login_user", user); // session user
+            logger.info("login user: " + user);
             return "redirect:/im";
         } else {
             throw new MyLoginException("Invalid username or password");
@@ -49,13 +53,15 @@ public class LoginController {
     }
 
     @PostMapping("/register/auth")
-    public String register(@ModelAttribute("login_user") User user, @NotNull HttpServletRequest request) throws MyLoginException {
+    public String register(@ModelAttribute("user") User user, @NotNull HttpServletRequest request) throws MyLoginException {
         if (loginService.register(user)) {
-            // registration fail back to login
+            logger.info("registration fail back to login");
             throw new MyLoginException("User with this e-mail has already been registered");
         } else {
-            request.getSession().setAttribute("login_user", user); // session user
-            // registration OK redirect to im
+            user.setUser_id(user.hashCode());
+            request.getSession().setAttribute("login_user", user);
+            logger.info("registration OK redirect to im");
+            logger.info("new user: " + user);
             return "redirect:/im";
         }
     }

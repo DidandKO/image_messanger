@@ -1,22 +1,86 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
-
-<head>
-    <meta charset="UTF-8">
-</head>
-
-<body>
-    <div th:fragment="chat_field_fragment">
-        <div id="chat" th:object="${dialog}">
+<div id="chat_field_fragment" th:fragment="chat_field_fragment">
+    <div id="sending_id">
+        <div id="chat" th:fragment="sending_fragment" th:with="dialog=${dialog} ? ${dialog} : ${session.current_dialog}">
             <div class="chat_name" id="chat_name_id" th:text="${dialog.subject}">Название чата</div>
-            <div class="message-field"></div>
+
+            <div class="message-field" id="message-field-id" th:with="user=${session.login_user}">
+
+                <div class="field-visible" th:each="message : ${messageList}">
+
+                    <div class="field-line right" th:if="${message.sender} == null or ${message.sender.user_id} == ${user.user_id}">
+                        <div class="field-wrapper">
+                            <div class="container-field">
+                                <div class="svg-field r">
+                                    <svg width="272" height="158" viewBox="0 0 272 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                                        <defs>
+                                            <mask id="msk1">
+                                                <g fill="white">
+                                                    <path d="M249.368 1H13.8007C9.32027 1 7.08007 1 5.36878 1.87194C3.86349 2.63892 2.63965 3.86276 1.87266 5.36804C1.00071 7.07933 1.00069 9.31953 1.00066 13.7999L1.00037 57.4798L1 113.96V144.66C1 149.141 1 151.381 1.87195 153.092C2.63893 154.597 3.86278 155.821 5.36808 156.588C7.07937 157.46 9.31958 157.46 13.8 157.46H250.072C252.04 157.46 253.024 157.46 253.998 157.365C254.863 157.28 255.722 157.138 256.569 156.942C257.523 156.72 258.455 156.405 260.319 155.775L260.838 155.6C261.333 155.433 261.58 155.349 261.833 155.309C262.058 155.274 262.286 155.265 262.513 155.281C262.769 155.299 263.022 155.362 263.529 155.487L271.5 157.46L270.894 156.961C267.687 154.315 266.084 152.992 264.93 151.365C263.909 149.924 263.15 148.314 262.688 146.608C262.167 144.684 262.167 142.605 262.167 138.447V110.11L262.168 13.8001V13.7999C262.168 9.31956 262.168 7.07938 261.296 5.36811C260.529 3.8628 259.305 2.63895 257.8 1.87196C256.088 1 253.848 1 249.368 1Z" stroke="white" stroke-width="1"/>
+                                                </g>
+                                            </mask>
+                                        </defs>
+                                        <img th:if="${message.imageSrc}" th:src="${message.imageSrc}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
+                                        <img th:if="${message.imageSrc} == null" th:src="'data:image/jpg;base64,' + ${message.byte_code}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
+                                    </svg>
+                                </div>
+                                <div class="time-field r">
+                                    <div class="logo_chat"><img th:src="@{/images/Ellipse_chat_field.png}" alt=""></div>
+                                    <p th:text="${message.timestamp}"></p>
+                                </div>
+
+                            </div>
+                            <div class="trans trans-r">
+                                <div class="trans-but">
+                                    <p>Aa</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-line left" th:if="${message.sender.user_id} == ${dialog.partner.user_id}">
+                        <div class="field-wrapper">
+                            <div class="container-field">
+                                <div class="time-field l">
+                                    <div class="logo_chat"><img th:src="@{/images/Ellipse_chat_field.png}" alt=""></div>
+                                    <p th:text="${message.timestamp}"></p>
+                                </div>
+                                <div class="svg-field l">
+                                    <svg width="272" height="159" viewBox="0 0 272 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                                        <defs>
+                                            <mask id="msk2">
+                                                <g fill="white">
+                                                    <path d="M22.632 1H258.199C262.68 1 264.92 1 266.631 1.87194C268.137 2.63892 269.36 3.86276 270.127 5.36804C270.999 7.07933 270.999 9.31953 270.999 13.7999L271 57.4798L271 113.96V144.66C271 149.141 271 151.381 270.128 153.092C269.361 154.597 268.137 155.821 266.632 156.588C264.921 157.46 262.68 157.46 258.2 157.46H21.928C19.96 157.46 18.976 157.46 18.002 157.365C17.137 157.28 16.278 157.138 15.431 156.942C14.477 156.72 13.545 156.405 11.681 155.775L11.162 155.6C10.667 155.433 10.42 155.349 10.167 155.309C9.94199 155.274 9.714 155.265 9.487 155.281C9.231 155.299 8.97801 155.362 8.47101 155.487L0.5 157.46L1.10599 156.961C4.31299 154.315 5.91601 152.992 7.07001 151.365C8.09101 149.924 8.85001 148.314 9.31201 146.608C9.83301 144.684 9.83301 142.605 9.83301 138.447V110.11L9.832 13.8001V13.7999C9.832 9.31956 9.83201 7.07938 10.704 5.36811C11.471 3.8628 12.695 2.63895 14.2 1.87196C15.912 1 18.152 1 22.632 1Z" stroke="white" stroke-width="1"/>
+                                                </g>
+                                            </mask>
+                                        </defs>
+                                        <img th:if="${message.imageSrc}" th:src="${message.imageSrc}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
+                                        <img th:if="${message.imageSrc} == null" th:src="'data:image/jpg;base64,' + ${message.byte_code}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
+                                    </svg>
+                                </div>
+
+                            </div>
+                            <div class="trans trans-l">
+                                <div class="trans-but">
+                                    <p>Aa</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
             <div class="chat-panel">
                 <div class="chat-panel-wrapper">
-                    <input type="text" placeholder="Напиши что-нибудь">
-                    <button><img th:src="@{/images/message_send.svg}" alt=""></button>
+                        <label>
+                            <input pattern="/[а-яА-Яa-zA-Z\s]+/" maxlength="120" id="message_body_id" type="text" placeholder="Напиши что-нибудь" required>
+                        </label>
+                        <img type="button" id="send_button_id" onclick="sendMessage(this, this.alt)" th:src="@{/images/message_send.svg}" th:alt="${dialog.dialog_id}">
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>

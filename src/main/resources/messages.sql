@@ -6,5 +6,6 @@ CREATE TABLE messages
     timestamp TIMESTAMP NOT NULL,
     body VARCHAR(4095) NOT NULL,
     image_src VARCHAR(255),
-    byte_code VARCHAR(2040)
+    byte_code VARCHAR(2040),
+    sender INT NOT NULL
 );

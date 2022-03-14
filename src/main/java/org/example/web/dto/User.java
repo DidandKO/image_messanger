@@ -34,12 +34,6 @@ public class User {
         dialogs.add(dialog);
     }
 
-    public void updateDialog(Dialog dialogToUpdate, Dialog newDialog) {
-        isEmpty();
-        int dialogIndex = dialogs.indexOf(dialogToUpdate);
-        dialogs.set(dialogIndex, newDialog);
-    }
-
     public void deleteDialog(Dialog dialogToDelete) {
         isEmpty();
         dialogs.remove(dialogToDelete);

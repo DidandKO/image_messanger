@@ -1,12 +1,9 @@
 package org.example.web.dto;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.awt.*;
 import java.sql.Timestamp;
-import java.util.Comparator;
 
-public class Message implements Comparator<Message> {
+public class Message {
 
     private int message_id;
     private int dialog_id;
@@ -15,6 +12,15 @@ public class Message implements Comparator<Message> {
     private Image imageBody;
     private byte[] byte_code;
     private String imageSrc;
+    private User sender;
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
 
     public int getDialog_id() {
         return dialog_id;
@@ -65,7 +71,7 @@ public class Message implements Comparator<Message> {
     }
 
     public String getBody() {
-        return body;
+        return this.body;
     }
 
     public void setBody(String body) {
@@ -75,20 +81,12 @@ public class Message implements Comparator<Message> {
     @Override
     public String toString() {
         return "Message{" +
-                "message_id=" + message_id +
+                "sender=" + sender +
+                ", message_id=" + message_id +
+                ", byte_code=" + byte_code +
                 ", timestamp=" + timestamp +
+                ", imageSrc=" + imageSrc +
                 ", body='" + body + '\'' +
                 '}';
-    }
-
-    @Override
-    public int compare(@NotNull Message m1, @NotNull Message m2) {
-        if (m1.getTimestamp().before(m2.getTimestamp())) {
-            return -1;
-        } else if (m1.getTimestamp().after(m2.getTimestamp())) {
-            return 1;
-        } else {
-            return 0;
-        }
     }
 }
