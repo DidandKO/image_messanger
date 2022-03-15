@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 @RequestMapping(value = "/im")
 public class ImController extends TextWebSocketHandler {
 
-    final String TOMCAT_DIR = System.getProperty("catalina.home") + File.separator + "drawings" + File.separator;
+    final String CATALINA_HOME =  "catalina.home";
     private ImService imService;
     Logger logger = Logger.getLogger("logger");
 
@@ -99,7 +99,7 @@ public class ImController extends TextWebSocketHandler {
         modelAndView.addObject("user", user);
         modelAndView.addObject("dialog", dialog);
         modelAndView.addObject("messageList", messageList);
-        modelAndView.addObject("tomcatDir", TOMCAT_DIR);
+        modelAndView.addObject("tomcatDir", CATALINA_HOME);
 
         logger.info("opened dialog: " + dialog);
         logger.info("message list: " + messageList);
@@ -124,7 +124,7 @@ public class ImController extends TextWebSocketHandler {
 
         modelAndView.addObject("dialog", dialogToUpdate);
         modelAndView.addObject("messageList", dialogToUpdate.getMessageList());
-        modelAndView.addObject("tomcatDir", TOMCAT_DIR);
+        modelAndView.addObject("tomcatDir", CATALINA_HOME);
 
         request.getSession().setAttribute("current_dialog", dialogToUpdate);
         return modelAndView;

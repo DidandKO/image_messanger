@@ -120,6 +120,7 @@ public class FindInDb {
         user.setName(rs.getString("name"));
         user.setLastName(rs.getString("lastname"));
         user.setOfflineTimeInMinutes(rs.getInt("offline_time_in_minutes"));
+        user.setInfo(rs.getString("info"));
         return user;
     }
 

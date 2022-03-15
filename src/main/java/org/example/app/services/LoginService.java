@@ -56,8 +56,8 @@ public class LoginService {
             params.put("id", loginForm.hashCode());
             params.put("email", loginForm.getEmail());
             params.put("password", loginForm.getPassword());
-            String exp = "INSERT INTO users_table(user_id,email,password,name,lastname,offline_time_in_minutes)" +
-                    " VALUES (:id,:email,:password,:id,'',0)";
+            String exp = "INSERT INTO users_table(user_id,email,password,name,lastname,offline_time_in_minutes,info)" +
+                    " VALUES (:id,:email,:password,:id,'',0,null)";
             jdbcTemplate.update(exp, params);
             logger.info("user '" + loginForm.getEmail() + "' is now registered");
             return false;

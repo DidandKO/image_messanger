@@ -800,7 +800,7 @@
 </style>
 <body>
 <div class="all_chat">
-    <div class="settings-container" id="settings-container-id">
+    <div class="settings-container" id="settings-container-id" th:object="${session.login_user}">
         <div class="title-settings">
             <div class="arrow-wrapp">
                 <div id='back_id' class="arrow-back"><img th:src="@{/images/arrow.svg}" alt=""></div>
@@ -818,14 +818,14 @@
                 <div class="edit-str">
                     <div class="arrow-wrapp"><img th:src="@{/images/username.svg}" alt=""></div>
                     <div class="text-div"><p id="username_edited_id">Имя пользователя</p>
-                        <p>Имя пользователя</p></div>
+                        <p th:text="${name}">Имя пользователя</p></div>
                     <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
                 </div>
             </div>
             <div class="edit-field-wrap">
                 <div class="edit-str">
                     <div class="arrow-wrapp"><img class="pass_ico" th:src="@{/images/password.svg}" alt=""></div>
-                    <div class="text-div"><p id="password_edited_id">&#183;&#183;&#183;&#183;&#183;&#183;&#183;</p>
+                    <div class="text-div"><p id="password_edited_id">&#183;&#183;&#183;&#183;&#183;&#183;&#183;&#183;</p>
                         <p>Пароль</p>
                     </div>
                     <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
@@ -833,10 +833,13 @@
             </div>
         </div>
         <div class="edit-line"></div>
-        <div class="field-aboutme">
+        <div th:if="${info} == null" class="field-aboutme">
             <input type="text" placeholder="О себе">
             <div class="line-aboutme"></div>
-            <h3>Расскажите о себе</h3>
+            <h5>Расскажите о себе</h5>
+        </div>
+        <div th:if="${info} != null" class="field-aboutme">
+            <p th:text="${info}"></p>
         </div>
     </div>
 

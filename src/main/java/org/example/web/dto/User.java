@@ -14,6 +14,7 @@ public class User {
     private List<Dialog> dialogs;
     private int offlineTimeInMinutes;
     private Image avatar;
+    private String info;
 
     private void isEmpty() {
         if(dialogs == null) {
@@ -94,6 +95,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     @Override

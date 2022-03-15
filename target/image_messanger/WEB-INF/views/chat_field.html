@@ -21,7 +21,7 @@
                                             </mask>
                                         </defs>
                                         <img th:if="${message.imageSrc}" th:src="${message.imageSrc}" width="272px" mask="#msk1" th:alt="${message.body}">
-                                        <img th:if="${message.imageSrc} == null" th:src="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'" width="272px" mask="#msk1" th:alt="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'">
+                                        <img th:if="${message.imageSrc} == null" th:src="${System.getProperty(__${tomcatDir}__)} + '/drawings/' + ${message.message_id} + '.jpg'" width="272px" mask="#msk1" th:alt="${System.getProperty(__${tomcatDir}__)} + '/drawings/' + ${message.message_id} + '.jpg'">
                                     </svg>
                                 </div>
                                 <div class="time-field r">
@@ -56,7 +56,7 @@
                                             </mask>
                                         </defs>
                                         <img th:if="${message.imageSrc}" th:src="${message.imageSrc}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
-                                        <img th:if="${message.imageSrc} == null" th:src="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'" width="272px" mask="url(#msk2)" th:alt="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'">
+                                        <img th:if="${message.imageSrc} == null" th:src="${System.getProperty(__${tomcatDir}__)} + '/drawings/' + ${message.message_id} + '.jpg'" width="272px" mask="url(#msk2)" th:alt="${System.getProperty(__${tomcatDir}__)} + '/drawings/' + ${message.message_id} + '.jpg'">
                                     </svg>
                                 </div>
 
