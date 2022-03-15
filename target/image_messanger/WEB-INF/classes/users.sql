@@ -7,5 +7,6 @@ CREATE TABLE users_table
     password VARCHAR(20) NOT NULL,
     name VARCHAR(255) NOT NULL,
     lastname VARCHAR(255) NOT NULL,
-    offline_time_in_minutes INT NOT NULL
+    offline_time_in_minutes INT NOT NULL,
+    info VARCHAR(100)
 );
