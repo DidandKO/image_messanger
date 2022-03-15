@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom 400</title>
+</head>
+<style>
+    .error-div {
+        margin-left: auto;
+        margin-right: auto;
+        place-items: center
+    }
+</style>
+<body>
+<div class="error-div">
+    <h1>ChaPic 400 Page (Bad Request)</h1>
+    <p th:text="${errorMessage}"></p>
+    <a href="/image_messanger_war_exploded/im"><strong>Вернуться к диалогам</strong></a>
+</div>
+</body>
+</html>

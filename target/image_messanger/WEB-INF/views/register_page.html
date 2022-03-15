@@ -164,8 +164,14 @@
                 <input type="submit" value="Зарегистрироваться" id="but_signup_id"/>
             </div>
                 <div class="rem_pas">
-                    <a href="login_page.html"><span>Уже зарегистрированы?</span></a>
-                </div></div>
+                    <a href="login_page.html" th:if="${session.login_user} == null" th:href="@{/login}">
+                        <span>Уже зарегистрированы?</span>
+                    </a>
+                    <a href="im.html" th:if="${session.login_user} != null" th:href="@{/im}">
+                        <span>Уже зарегистрированы?</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </form>
     </div>

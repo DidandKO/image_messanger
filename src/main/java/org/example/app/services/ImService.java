@@ -15,15 +15,11 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 
 @Service
 public class ImService {
@@ -31,6 +27,7 @@ public class ImService {
     final String FIRST_FOUND_IMAGE_A_CLASS = "serp-item__link";
     final String FIRST_FOUND_IMAGE_CLASS = "serp-item__thumb justifier__thumb";
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private StorageService storageService;
     Logger logger = Logger.getLogger("logger");
 
     public ImService(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -79,10 +76,10 @@ public class ImService {
         try {
             Document doc = Jsoup.connect(url).get();
             Element firstFoundImageDiv = doc.getElementsByClass(FIRST_FOUND_IMAGE_A_CLASS).first();
-//            if (firstFoundImageDiv == null) {
-//                return null;
-//            }
-            assert firstFoundImageDiv != null;
+            logger.info("first found image div: " + firstFoundImageDiv);
+            if (firstFoundImageDiv == null) {
+                return null;
+            }
             Element imageItem = firstFoundImageDiv.getElementsByClass(FIRST_FOUND_IMAGE_CLASS).first();
             assert imageItem != null;
             return imageItem.attributes().get("src").concat(".jpg");
@@ -93,30 +90,30 @@ public class ImService {
 
     @NotNull
     private String convertCyrillic(@NotNull String message){
-        char[] abcCyr =   {'а','б','в','г','д', 'ё','е', 'ж','з','ѕ','и','й','к','л','љ','м','н','њ','о','п','р','с','т','ќ','у','ф','х','ц', 'ч', 'ш',  'щ','ъ','ы','ь','э', 'ю', 'я', 'А','Б','В','Г','Д','Ѓ','Е', 'Ж','З','Ѕ','И','Й','К','Л','Љ','М','Н','Њ','О','П','Р','С','Т', 'Ќ', 'У','Ф', 'Х','Ц','Ч','Џ',  'Ш',  'Щ','Ъ','Ы','Ь','Э', 'Ю', 'Я'};
-        String[] abcLat = {"a","b","v","g","d","yo","e","zh","z","y","i","j","k","l","q","m","n","w","o","p","r","s","t","k","u","f","h","c","ch","sh","shy", "","y", "","e","yu","ya", "A","B","V","G","D","G","E","Zh","Z","Y","I","J","K","L","Q","M","N","W","O","P","R","S","T","KJ","U","F","H", "C","CH", "X","SH","SHY", "","Y", "","E","YU","YA"};
-        StringBuilder builder = new StringBuilder();
+        char[] abcCyr =   {' ','а','б','в','г','д', 'ё','е', 'ж','з','и','й','к','л','љ','м','н','њ','о','п','р','с','т','ќ','у','ф','х','ц', 'ч', 'ш',  'щ','ъ','ы','ь','э', 'ю', 'я'};
+        String[] abcLat = {" ","a","b","v","g","d","yo","e","zh","z","i","j","k","l","q","m","n","w","o","p","r","s","t","k","u","f","h","c","ch","sh","shy", "","y", "","e","yu","ya"};
+        String builder = "";
         for (int i = 0; i < message.length(); i++) {
             for (int x = 0; x < abcCyr.length; x++ ) {
                 if (message.charAt(i) == abcCyr[x]) {
-                    builder.append(abcLat[x]);
+                    builder = builder.concat(abcLat[x]);
+                    break;
                 }
             }
+            if (builder.length() == i) {
+                builder = builder.concat(String.valueOf(message.charAt(i)));
+            }
         }
-        return builder.toString();
+        return builder;
     }
 
-    private void setAnyImageAttrToMessage(@NotNull String messageBody, Message message) throws IOException {
-        String imageSrc = convertTextIntoImage(messageBody.toLowerCase());
-        if (imageSrc == null) {
-            byte[] imageData = Base64.getDecoder().decode(convertCyrillic(messageBody));
-            ImageIcon imageIcon = new ImageIcon(imageData);
-            Image image = imageIcon.getImage();
-            message.setImageBody(image);
-            message.setByte_code(imageData);
-        } else {
-            message.setImageSrc(imageSrc);
+    private String multiplyMessageForBiggerImageSize(String message) {
+        String output = "";
+        int times = 100;
+        for (int i = 0; i < times; i++) {
+            output = output.concat(message);
         }
+        return output;
     }
 
     @Nullable
@@ -126,18 +123,51 @@ public class ImService {
         }
         String spaceChar = "%20";
         String url = "https://yandex.ru/images/search?from=tabbar&text=";
-        if (text.contains(" ")) {
-            String[] wordsInMessage = text.trim().split(" ");
-            IntStream
-                    .range(0, wordsInMessage.length - 1)
-                    .forEach(i -> wordsInMessage[i] = wordsInMessage[i].concat(spaceChar));
-            for (String s : wordsInMessage) {
-                url = url.concat(s);
-            }
-        } else {
-            url = url.concat(text);
-        }
+        text = text.trim().replace(" ", spaceChar);
+        url = url.concat(text);
+        logger.info("url to image: " + url);
+
         return getImageSrc(url);
+    }
+
+    private void setAnyImageAttrToMessage(@NotNull Message message) throws IOException {
+        String messageBody = message.getBody();
+        String imageSrc;
+        imageSrc = convertTextIntoImage(convertCyrillic(messageBody.toLowerCase()));
+        logger.info("latin message: " + convertCyrillic(messageBody.toLowerCase()));
+        logger.info("imageSrc: " + imageSrc);
+        if (imageSrc == null) {
+            byte[] imageData =
+                    Base64.getDecoder()
+                    .decode(Base64.getEncoder()
+                            .withoutPadding()
+                            .encodeToString(
+                                    convertCyrillic(multiplyMessageForBiggerImageSize(messageBody.toLowerCase())).getBytes()
+                            ));
+            ImageIcon imageIcon = new ImageIcon(imageData);
+            Image image = imageIcon.getImage();
+            message.setImageBody(image);
+            message.setByte_code(imageData);
+            saveDrawing(message);
+        } else {
+            message.setImageSrc(imageSrc);
+        }
+    }
+
+    private void saveDrawing(@NotNull Message message) throws IOException {
+        //create dir
+        String rootPath = System.getProperty("catalina.home");
+        File dir = new File(rootPath + File.separator + "drawings");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        //create file
+        File file = new File(dir.getAbsolutePath() + File.separator + message.getMessage_id() + ".jpg");
+        FileOutputStream stream = new FileOutputStream(file);
+        byte[] bytes = message.getByte_code();
+        stream.write(bytes);
+        stream.close();
+        logger.info("new file saved at: " + file.getAbsolutePath());
     }
 
     public Message createMessage(String messageBody, @NotNull Dialog dialog, User user) throws IOException {
@@ -147,7 +177,7 @@ public class ImService {
         message.setTimestamp(new Timestamp(System.currentTimeMillis()));
         message.setBody(messageBody);
         message.setSender(user);
-        setAnyImageAttrToMessage(messageBody, message);
+        setAnyImageAttrToMessage(message);
         insertMessageIntoDb(message, dialog);
         return message;
     }

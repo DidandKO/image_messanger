@@ -1,6 +1,6 @@
 <div id="chat_field_fragment" th:fragment="chat_field_fragment">
     <div id="sending_id">
-        <div id="chat" th:fragment="sending_fragment" th:with="dialog=${dialog} ? ${dialog} : ${session.current_dialog}">
+        <div id="chat" th:with="dialog=${dialog} ? ${dialog} : ${session.current_dialog}">
             <div class="chat_name" id="chat_name_id" th:text="${dialog.subject}">Название чата</div>
 
             <div class="message-field" id="message-field-id" th:with="user=${session.login_user}">
@@ -20,8 +20,8 @@
                                                 </g>
                                             </mask>
                                         </defs>
-                                        <img th:if="${message.imageSrc}" th:src="${message.imageSrc}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
-                                        <img th:if="${message.imageSrc} == null" th:src="'data:image/jpg;base64,' + ${message.byte_code}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
+                                        <img th:if="${message.imageSrc}" th:src="${message.imageSrc}" width="272px" mask="#msk1" th:alt="${message.body}">
+                                        <img th:if="${message.imageSrc} == null" th:src="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'" width="272px" mask="#msk1" th:alt="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'">
                                     </svg>
                                 </div>
                                 <div class="time-field r">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
 
-                    <div class="field-line left" th:if="${message.sender.user_id} == ${dialog.partner.user_id}">
+                    <div class="field-line left" th:if="${message.sender} == null or ${message.sender.user_id} == ${dialog.partner.user_id}">
                         <div class="field-wrapper">
                             <div class="container-field">
                                 <div class="time-field l">
@@ -56,7 +56,7 @@
                                             </mask>
                                         </defs>
                                         <img th:if="${message.imageSrc}" th:src="${message.imageSrc}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
-                                        <img th:if="${message.imageSrc} == null" th:src="'data:image/jpg;base64,' + ${message.byte_code}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
+                                        <img th:if="${message.imageSrc} == null" th:src="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'" width="272px" mask="url(#msk2)" th:alt="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'">
                                     </svg>
                                 </div>
 
@@ -76,7 +76,7 @@
             <div class="chat-panel">
                 <div class="chat-panel-wrapper">
                         <label>
-                            <input pattern="/[а-яА-Яa-zA-Z\s]+/" maxlength="120" id="message_body_id" type="text" placeholder="Напиши что-нибудь" required>
+                            <input pattern="[а-яА-Яa-zA-Z\s]+" maxlength="65" id="message_body_id" type="text" placeholder="Напиши что-нибудь" required="required">
                         </label>
                         <img type="button" id="send_button_id" onclick="sendMessage(this, this.alt)" th:src="@{/images/message_send.svg}" th:alt="${dialog.dialog_id}">
                 </div>

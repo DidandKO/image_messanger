@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.web.config.AppContextConfig;
+import org.example.app.config.AppContextConfig;
 import org.example.web.config.WebContextConfig;
 import org.h2.server.web.WebServlet;
 import org.jetbrains.annotations.NotNull;

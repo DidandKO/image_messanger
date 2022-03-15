@@ -33,15 +33,6 @@
                 document.getElementById('title_chat_id').innerText = document.getElementById('text_id').value;
             });
 
-            document.getElementById('hello_logo_id').style.display = 'block';
-
-            document.addEventListener('load', (e) => {
-                if(document.getElementById('chat_info_id').childNodes.length > 0){
-                    document.getElementById('hello_logo_id').style.display = 'none';
-                    document.getElementById('chat_field_id').style.display = 'block';
-                }
-            });
-
             document.addEventListener('click', (e) => {
                 const withinCreatingChat = e.composedPath().includes(container_creating_chat);
                 const withinButton = e.composedPath().includes(button_add_chat);
@@ -514,14 +505,15 @@
         cursor: pointer;
     }
     #chat_field_id{
+        background: #FFFFFF;
         width: 72%;
         height: 100vh;
-        display: block;/* flex*/
+        display: flex;
+        justify-content: center;
         align-items: center;
-        justify-content: space-around;
     }
     #hello_logo_id{
-        display: none; /*flex*/
+        display: flex;
         align-items: center;
         height: 63px;
     }
@@ -807,159 +799,160 @@
     }
 </style>
 <body>
-    <div class="all_chat">
-        <div class="settings-container" id="settings-container-id">
-            <div class="title-settings">
-                <div class="arrow-wrapp">
-                    <div id='back_id' class="arrow-back"><img th:src="@{/images/arrow.svg}" alt=""></div>
-                </div>
-                <div class="title-name">Редактирование профиля</div>
+<div class="all_chat">
+    <div class="settings-container" id="settings-container-id">
+        <div class="title-settings">
+            <div class="arrow-wrapp">
+                <div id='back_id' class="arrow-back"><img th:src="@{/images/arrow.svg}" alt=""></div>
             </div>
-            <div class="photo-field">
-                <div class="image-div">
-                    <img th:src="@{/images/Ellipse.png}" alt="">
-                </div>
-                <button>ВЫБРАТЬ ФОТО</button>
+            <div class="title-name">Редактирование профиля</div>
+        </div>
+        <div class="photo-field">
+            <div class="image-div">
+                <img th:src="@{/images/Ellipse.png}" alt="">
             </div>
-            <div class="edit-field">
-                <div class="edit-field-wrap">
-                    <div class="edit-str">
-                        <div class="arrow-wrapp"><img th:src="@{/images/username.svg}" alt=""></div>
-                        <div class="text-div"><p id="username_edited_id">Имя пользователя</p>
-                            <p>Имя пользователя</p></div>
-                        <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
+            <button>ВЫБРАТЬ ФОТО</button>
+        </div>
+        <div class="edit-field">
+            <div class="edit-field-wrap">
+                <div class="edit-str">
+                    <div class="arrow-wrapp"><img th:src="@{/images/username.svg}" alt=""></div>
+                    <div class="text-div"><p id="username_edited_id">Имя пользователя</p>
+                        <p>Имя пользователя</p></div>
+                    <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
+                </div>
+            </div>
+            <div class="edit-field-wrap">
+                <div class="edit-str">
+                    <div class="arrow-wrapp"><img class="pass_ico" th:src="@{/images/password.svg}" alt=""></div>
+                    <div class="text-div"><p id="password_edited_id">&#183;&#183;&#183;&#183;&#183;&#183;&#183;</p>
+                        <p>Пароль</p>
+                    </div>
+                    <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
+                </div>
+            </div>
+        </div>
+        <div class="edit-line"></div>
+        <div class="field-aboutme">
+            <input type="text" placeholder="О себе">
+            <div class="line-aboutme"></div>
+            <h3>Расскажите о себе</h3>
+        </div>
+    </div>
+
+    <div class="chatroom" id="chat_room_id">
+        <div class="nav_menu" id="nav_menu_id">
+            <div class="user_logo">
+                <div class="burger_logo" id="burger_logo_user">
+                    <img th:src="@{/images/burger_gray.svg}" alt="">
+                </div>
+                <img th:src="@{/images/Ellipse_logo.png}" alt="">
+            </div>
+            <div class="user_name">
+                <h3 th:text="${user.email}"></h3>
+            </div>
+            <div class="block-wrapper">
+                <div class="nav_block"><a id="open_settings_ico">Настройки</a></div>
+                <div class="nav_block"><a id="open_about_ico">О нас</a></div>
+            </div>
+            <div class="log_out_div">
+                <div class="block-wrapper lo">
+                    <div class="nav_block log_out">
+                        <a id='open_logout_ico' th:href="@{/main}">Выйти</a>
                     </div>
                 </div>
-                <div class="edit-field-wrap">
-                    <div class="edit-str">
-                        <div class="arrow-wrapp"><img class="pass_ico" th:src="@{/images/password.svg}" alt=""></div>
-                        <div class="text-div"><p id="password_edited_id">&#183;&#183;&#183;&#183;&#183;&#183;&#183;</p>
-                            <p>Пароль</p>
-                        </div>
-                        <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
-                    </div>
-                </div>
             </div>
-            <div class="edit-line"></div>
-            <div class="field-aboutme">
-                <input type="text" placeholder="О себе">
-                <div class="line-aboutme"></div>
-                <h3>Расскажите о себе</h3>
+        </div>
+        <div class="searchchat">
+            <div class="burger_logo" id="burger_logo_id"><img th:src="@{/images/burger.svg}" alt=""></div>
+            <div class="search_input">
+                <button id="search_but_id" class="search_but"><img th:src="@{/images/search_but.svg}" alt=""></button>
+                <input type="text" placeholder="Поиск">
             </div>
         </div>
 
-        <div class="chatroom" id="chat_room_id">
-            <div class="nav_menu" id="nav_menu_id">
-                <div class="user_logo">
-                    <div class="burger_logo" id="burger_logo_user">
-                        <img th:src="@{/images/burger_gray.svg}" alt="">
+        <div class="chats" th:each="user_dialog : ${dialog_list}">
+            <div class="chat_info" id="chat_info_id" th:href="@{/im/{id}(id=${user_dialog.dialog_id})}">
+                <div class="container_chat_info" th:id="${user_dialog.dialog_id}" onclick="openChat(this, this.id)">
+                    <div class="chat_logo">
+                        <img th:src="@{/images/Ellipse.png}" alt="">
                     </div>
-                    <img th:src="@{/images/Ellipse_logo.png}" alt="">
-                </div>
-                <div class="user_name">
-                    <h3 th:text="${user.email}"></h3>
-                </div>
-                <div class="block-wrapper">
-                    <div class="nav_block"><a id="open_settings_ico">Настройки</a></div>
-                    <div class="nav_block"><a id="open_about_ico">О нас</a></div>
-                </div>
-                <div class="log_out_div">
-                    <div class="block-wrapper lo">
-                        <div class="nav_block log_out">
-                            <a id='open_logout_ico' th:href="@{/main}">Выйти</a>
+                    <div class="description">
+                        <div class="container_description">
+                            <div class="title" id="title_chat_id" th:text="${user_dialog.subject}">Название чата</div>
+                            <div class="subtitle" id="subtitle_chat_id" th:text="${user_dialog.partner.user_id}"></div>
+                        </div>
+                    </div>
+                    <div class="measurement">
+                        <div class="date">17.02.2022</div>
+                        <div class="counter">
+                            <div th:if="${user_dialog.newMessagesCount} > 0" class="circle"><p th:text="${user_dialog.newMessagesCount}"></p></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="searchchat">
-                    <div class="burger_logo" id="burger_logo_id"><img th:src="@{/images/burger.svg}" alt=""></div>
-                    <div class="search_input">
-                        <button id="search_but_id" class="search_but"><img th:src="@{/images/search_but.svg}" alt=""></button>
-                        <input type="text" placeholder="Поиск">
-                    </div>
-                </div>
-
-            <div class="chats" th:each="user_dialog : ${dialog_list}">
-                <div class="chat_info" id="chat_info_id" th:href="@{/im/{id}(id=${user_dialog.dialog_id})}">
-                    <div class="container_chat_info" th:id="${user_dialog.dialog_id}" onclick="openChat(this, this.id)">
-                        <div class="chat_logo">
-                            <img th:src="@{/images/Ellipse.png}" alt="">
+        </div>
+        <form method="post" th:action="@{/im/create_dialog}" th:object="${new_dialog}">
+            <div class="creating_chat_wrapper">
+                <div class="creating_chat" id="creating_chat">
+                    <div class="container_creating_chat" id="container_creating_chat_id">
+                        <div class="logo"><img th:src="@{/images/logo.svg}" alt=""></div>
+                        <div class="title_creating_chat"><p>Создание чата</p></div>
+                        <div class="input_wrapper">
+                            <input type="text" id="text_id" th:field="*{subject}" placeholder="Введите название чата" required>
                         </div>
-                        <div class="description">
-                            <div class="container_description">
-                                <div class="title" id="title_chat_id" th:text="${user_dialog.subject}">Название чата</div>
-                                <div class="subtitle" th:if="${not #lists.isEmpty(user_dialog.messageList)}" id="subtitle_chat_id" th:text="${user_dialog.messageList[__${#lists.size(user_dialog.messageList)-1}__].body}"></div>
-                                <div class="subtitle" th:if="${#lists.isEmpty(user_dialog.messageList)}" id="subtitle_chat_no_messages_id">Нет сообщений</div>
-                            </div>
+                        <div class="input_wrapper">
+                            <input type="text" th:field="*{partner.email}" placeholder="Введите собеседника">
                         </div>
-                        <div class="measurement">
-                            <div class="date">17.02.2022</div>
-                            <div class="counter">
-                                <div th:if="${user_dialog.newMessagesCount} > 0" class="circle"><p th:text="${user_dialog.newMessagesCount}"></p></div>
-                            </div>
-                        </div>
+                        <input type="submit" value='Создать' id="creating_chat_id">
                     </div>
                 </div>
             </div>
-            <form method="post" th:action="@{/im/create_dialog}" th:object="${new_dialog}">
-                <div class="creating_chat_wrapper">
-                    <div class="creating_chat" id="creating_chat">
-                        <div class="container_creating_chat" id="container_creating_chat_id">
-                            <div class="logo"><img th:src="@{/images/logo.svg}" alt=""></div>
-                            <div class="title_creating_chat"><p>Создание чата</p></div>
-                            <div class="input_wrapper">
-                                <input type="text" id="text_id" th:field="*{subject}" placeholder="Введите название чата" required>
-                            </div>
-                            <div class="input_wrapper">
-                                <input type="text" th:field="*{partner.email}" placeholder="Введите собеседника" required>
-                            </div>
-                            <input type="submit" value='Создать' id="creating_chat_id">
-                        </div>
-                    </div>
-                </div>
-            </form>
+        </form>
+    </div>
+
+    <div class="add_chat"><button id="add_chat_id">
+        <img th:src="@{/images/add_chat.svg}" alt=""></button>
+    </div>
+
+    <div class="chat_field" id="chat_field_id">
+
+        <div class="hello_logo" id="hello_logo_id">
+            <img th:src="@{/images/logo.svg}" alt="">
+            <h2 th:text="${user.email} + ',&nbsp'"></h2>
+            <h3>общайтесь на здоровье</h3>
         </div>
 
-        <div class="add_chat"><button id="add_chat_id">
-            <img th:src="@{/images/add_chat.svg}" alt=""></button>
-        </div>
+        <div class="chat-field-wrapper" id="chat_field_wrapper_id"></div>
+    </div>
+</div>
 
-        <div class="chat_field" id="chat_field_id">
+<div id="filter"></div>
 
-            <div class="hello_logo" id="hello_logo_id">
-                <img th:src="@{/images/logo.svg}" alt="">
-                <h2 th:text="${user.email} + ',&nbsp'"></h2>
-                <h3>общайтесь на здоровье</h3>
-            </div>
+<script>
+    let send_button = $('#send_button_id');
 
-            <div class="chat-field-wrapper" id="chat_field_wrapper_id"></div>
-        </div>
-        </div>
+    function openChat(element, dialog_id) {
+        let chatField = $("#chat_field_wrapper_id");
+        chatField.css("display", "block");
+        $("#hello_logo_id").css("display", "none");
+        $("#chat_field_id").css("display", "block");
+        $("#chat_field_id").css("background", "none");
+        let url = "/image_messanger_war_exploded/im/" + dialog_id;
+        chatField.load(url);
+    }
 
-    <div id="filter"></div>
-
-    <script>
-        let send_button = $('#send_button_id');
-
-        function openChat(element, dialog_id) {
-            let chatField = $("#chat_field_wrapper_id");
-            chatField.css("display", "block");
-            $("#hello_logo_id").css("display", "none");
-            let url = "/image_messanger_war_exploded/im/" + dialog_id;
-            chatField.load(url);
-        }
-
-        function sendMessage(element, dialog_id) {
-            let messageField = $('#message_body_id');
-            let message_body = messageField.val();
-            let url = "/image_messanger_war_exploded/im/send_message/" + dialog_id + "/" + message_body;
-            $.get(url, function(data) {
-                $('#sending_id').html(data);
-            });
-            messageField.val("");
-            $('#subtitle_chat_id').attr('text', message_body);
-            $('#subtitle_chat_no_messages_id').attr('text', message_body);
-        }
-    </script>
+    function sendMessage(element, dialog_id) {
+        let messageField = $('#message_body_id');
+        let message_body = messageField.val();
+        let url = "/image_messanger_war_exploded/im/send_message/" + dialog_id + "/" + message_body;
+        $.get(url, function(data) {
+            $('#chat_field_wrapper_id').html(data);
+        });
+        messageField.val("");
+        $('#subtitle_chat_id').attr('text', message_body);
+        $('#subtitle_chat_no_messages_id').attr('text', message_body);
+    }
+</script>
 </body>
 </html>

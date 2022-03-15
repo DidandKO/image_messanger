@@ -4,8 +4,8 @@ CREATE TABLE messages
 (
     message_id INT PRIMARY KEY,
     timestamp TIMESTAMP NOT NULL,
-    body VARCHAR(4095) NOT NULL,
+    body VARCHAR(120) NOT NULL,
     image_src VARCHAR(255),
-    byte_code VARCHAR(2040),
+    byte_code VARCHAR(65535),
     sender INT NOT NULL
 );

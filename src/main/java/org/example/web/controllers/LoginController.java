@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class LoginController {
 
     @NotNull
     @GetMapping("/login")
-    public String getLoginPage(@NotNull Model model) {
+    public String login(@NotNull Model model) {
         model.addAttribute("user", new User());
         return "login_page";
     }
@@ -35,6 +36,7 @@ public class LoginController {
     @NotNull
     @PostMapping("/login/auth")
     public String authenticate(@ModelAttribute("user") User user, HttpServletRequest request) throws MyLoginException {
+        logger.info("try login with user: " + user);
         if (loginService.authenticate(user)) {
             user = loginService.findRegisteredUserByLogin(user.getEmail());
             request.getSession().setAttribute("login_user", user); // session user
@@ -47,7 +49,7 @@ public class LoginController {
 
     @NotNull
     @GetMapping("/register")
-    public String getRegisterPage(@NotNull Model model) {
+    public String register(@NotNull Model model) {
         model.addAttribute("user", new User());
         return "register_page";
     }
@@ -64,5 +66,11 @@ public class LoginController {
             logger.info("new user: " + user);
             return "redirect:/im";
         }
+    }
+
+    @ExceptionHandler(MyLoginException.class)
+    public String handleError(@NotNull Model model, @NotNull MyLoginException exception) {
+        model.addAttribute("errorMessage", exception.getMessage());
+        return "errors/404";
     }
 }

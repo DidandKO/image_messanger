@@ -186,10 +186,9 @@
     }
 </style>
 <body>
-<form method="post" th:action="@{/login/auth}" class="block">
+<form method="post" th:action="@{/login/auth}" class="block" th:object="${user}">
     <div class="content">
         <div class="logo"><a href="main.html"><img th:src="@{/images/logo.svg}" alt="logo"></a></div>
-    <form method="post" th:action="@{/register/auth}" th:object="${user}">
         <h1>ВХОД</h1>
         <div class="line_block">
             <img th:src="@{/images/user.svg}" alt="U">
@@ -214,7 +213,6 @@
                 </div>
             </div>
         </div>
-    </form>
     </div>
 </form>
 </body>

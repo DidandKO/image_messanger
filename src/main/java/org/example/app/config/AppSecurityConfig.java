@@ -1,4 +1,4 @@
-package org.example.web.config;
+package org.example.app.config;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .inMemoryAuthentication()
                 .withUser("root")
                 .password(passwordEncoder().encode("123"))
-                .roles("ADMIN");
+                .roles("USER");
     }
 
     @Bean
@@ -35,16 +35,20 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         // config http security
         http.headers().frameOptions().disable();
         http
-                .csrf().disable()
+                .csrf()
+                .and()
+//                .disable()
                 .authorizeRequests()
-                .antMatchers("/login*").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/login*")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login/auth")
                 .defaultSuccessUrl("/im", true)
-                .failureUrl("/login");
+                .failureUrl("/register");
     }
 
     @Override
