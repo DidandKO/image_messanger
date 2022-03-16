@@ -13,7 +13,7 @@ public class User {
     private String lastName;
     private List<Dialog> dialogs;
     private int offlineTimeInMinutes;
-    private Image avatar;
+    private String avatar;
     private String info;
 
     private void isEmpty() {
@@ -22,11 +22,11 @@ public class User {
         }
     }
 
-    public Image getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Image avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
@@ -113,6 +113,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", offlineTimeInMinutes=" + offlineTimeInMinutes +
                 '}';
     }

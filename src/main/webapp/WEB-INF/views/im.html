@@ -9,6 +9,7 @@
     <script>
         window.onload = unit;
         function unit() {
+            document.getElementById('change_photo_form').style.display = 'none';
 
             let button_add_chat = document.getElementById('add_chat_id');
             let field_creating_chat = document.getElementById('creating_chat');
@@ -21,6 +22,7 @@
             let open_logout = document.getElementById('open_logout_ico');
             let settings = document.getElementById('settings-container-id');
             let back_settings = document.getElementById('back_id');
+            let change_img_btn = document.getElementById('change_photo');
 
             button_add_chat.addEventListener('click', function () {
                 field_creating_chat.style.display = 'block';
@@ -76,13 +78,16 @@
                 }
                 settings.classList.add('show-set');
                 settings.classList.remove('hide-set');
-            })
+            });
+
+            change_img_btn.addEventListener('click', function(){
+                document.getElementById('change_photo_form').style.display = 'block';
+            });
         }
     </script>
 </head>
 <style>
     body{
-
         width: 100%;
         height: 100%;
         margin: 0;
@@ -250,6 +255,7 @@
     .image-div{
         width: 72px;
         height: 72px;
+        border-radius: 50%;
     }
     .field-aboutme p{
         cursor: default;
@@ -800,7 +806,7 @@
 </style>
 <body>
 <div class="all_chat">
-    <div class="settings-container" id="settings-container-id">
+    <div class="settings-container" id="settings-container-id" th:object="${session.login_user}">
         <div class="title-settings">
             <div class="arrow-wrapp">
                 <div id='back_id' class="arrow-back"><img th:src="@{/images/arrow.svg}" alt=""></div>
@@ -809,16 +815,32 @@
         </div>
         <div class="photo-field">
             <div class="image-div">
-                <img th:src="@{/images/Ellipse.png}" alt="">
+                <img th:if="${avatar} == null" th:src="@{/images/Ellipse.png}" alt="">
+                <image th:unless="${avatar} != null" th:href="${web} + ${avatar}"></image>
             </div>
-            <button>ВЫБРАТЬ ФОТО</button>
+            <button id="change_photo">СМЕНИТЬ ФОТО</button>
+            <form id="change_photo_form" method="post" th:action="@{/im/uploadFile}" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="file" name="file" accept=".jpg,.jpeg,.png"/>
+                        </td>
+                        <td>
+                            <input type="submit" value="Загрузить">
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
-        <div class="edit-field" th:object="${session.login_user}">
+        <div class="edit-field">
             <div class="edit-field-wrap">
                 <div class="edit-str">
                     <div class="arrow-wrapp"><img th:src="@{/images/username.svg}" alt=""></div>
-                    <div class="text-div"><p id="username_edited_id">Имя пользователя</p>
+                    <div class="text-div"><p id="username_edited_id">Имя</p>
                         <p th:text="${name}">Имя пользователя</p></div>
+                    <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
+                    <div class="text-div"><p id="lastname_edited_id">Фамилия</p>
+                        <p th:text="${lastName}">Фамилия пользователя</p></div>
                     <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
                 </div>
             </div>
@@ -883,11 +905,11 @@
                     <div class="description">
                         <div class="container_description">
                             <div class="title" id="title_chat_id" th:text="${user_dialog.subject}">Название чата</div>
-                            <div class="subtitle" id="subtitle_chat_id" th:text="${user_dialog.partner.user_id}"></div>
+                            <div class="subtitle" id="subtitle_chat_id" th:text="${user_dialog.partner.email}"></div>
                         </div>
                     </div>
-                    <div class="measurement">
-                        <div class="date">17.02.2022</div>
+                    <div class="measurement" th:with="list=${user_dialog.messageList}">
+                        <div th:unless="${#lists.isEmpty(list)}" th:text="${list[__${#lists.size(list) - 1}__].timestamp}" class="date"></div>
                         <div class="counter">
                             <div th:if="${user_dialog.newMessagesCount} > 0" class="circle"><p th:text="${user_dialog.newMessagesCount}"></p></div>
                         </div>

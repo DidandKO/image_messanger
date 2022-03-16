@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.*;
@@ -109,7 +111,7 @@ public class ImService {
 
     private String multiplyMessageForBiggerImageSize(String message) {
         String output = "";
-        int times = 100;
+        int times = 110;
         for (int i = 0; i < times; i++) {
             output = output.concat(message);
         }
@@ -133,7 +135,7 @@ public class ImService {
     private void setAnyImageAttrToMessage(@NotNull Message message) throws IOException {
         String messageBody = message.getBody();
         String imageSrc;
-        imageSrc = convertTextIntoImage(convertCyrillic(messageBody.toLowerCase()));
+        imageSrc = convertTextIntoImage(messageBody.toLowerCase());
         logger.info("latin message: " + convertCyrillic(messageBody.toLowerCase()));
         logger.info("imageSrc: " + imageSrc);
         if (imageSrc == null) {
@@ -148,6 +150,7 @@ public class ImService {
             Image image = imageIcon.getImage();
             message.setImageBody(image);
             message.setByte_code(imageData);
+            logger.info("bytecode: " + Arrays.toString(imageData));
             saveDrawing(message);
         } else {
             message.setImageSrc(imageSrc);
@@ -221,5 +224,21 @@ public class ImService {
                 " VALUES (:dialog_id,:dialog_owner,:partner,:subject,:new_messages_count)";
         jdbcTemplate.update(exp, params);
         logger.info("dialog into db - success");
+    }
+
+    public void changeAvatar(@NotNull User user) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", user.getUser_id());
+        params.put("email", user.getEmail());
+        params.put("password", user.getPassword());
+        params.put("name", user.getName());
+        params.put("lastname", user.getLastName());
+        params.put("offline_time_in_minutes", user.getOfflineTimeInMinutes());
+        params.put("info", user.getInfo());
+        params.put("avatar", user.getAvatar());
+        String exp = "INSERT INTO users_table(user_id,email,password,name,lastname,offline_time_in_minutes,info,avatar)" +
+                " VALUES (:id,:email,:password,:name,:lastname,:offline_time_in_minutes,:info,:avatar)";
+        jdbcTemplate.update(exp, params);
+        logger.info("user into db - success");
     }
 }

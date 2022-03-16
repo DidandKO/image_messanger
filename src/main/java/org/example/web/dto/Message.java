@@ -2,12 +2,14 @@ package org.example.web.dto;
 
 import java.awt.*;
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Message {
 
     private int message_id;
     private int dialog_id;
-    private Timestamp timestamp;
+    private String timestamp;
     private String body;
     private Image imageBody;
     private byte[] byte_code;
@@ -62,11 +64,15 @@ public class Message {
         this.message_id = message_id;
     }
 
-    public Timestamp getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
     public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd MMMM HH:mm").withLocale(new Locale("ru")));
+    }
+
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

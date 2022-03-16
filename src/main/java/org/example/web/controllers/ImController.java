@@ -2,6 +2,7 @@ package org.example.web.controllers;
 
 import org.example.app.exceptions.MyNoSuchUserException;
 import org.example.app.exceptions.MyNullMessageException;
+import org.example.app.exceptions.MyUploadException;
 import org.example.app.services.ImService;
 import org.example.web.dto.Dialog;
 import org.example.web.dto.Message;
@@ -13,12 +14,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -26,7 +31,8 @@ import java.util.logging.Logger;
 @RequestMapping(value = "/im")
 public class ImController extends TextWebSocketHandler {
 
-    final String CATALINA_HOME =  "catalina.home";
+    private static final Object CHROME_WEB_SERVER_URL = "http://127.0.0.1:8887/";
+    final String CATALINA_HOME = System.getProperty("catalina.home") + File.separator + "drawings";
     private ImService imService;
     Logger logger = Logger.getLogger("logger");
 
@@ -34,8 +40,6 @@ public class ImController extends TextWebSocketHandler {
     public ImController(ImService imService) {
         this.imService = imService;
     }
-
-    public ImController() {}
 
     @NotNull
     @Contract(pure = true)
@@ -50,6 +54,7 @@ public class ImController extends TextWebSocketHandler {
         model.addAttribute("dialog_list", user.getDialogs());
         logger.info("dialog_list: " + user.getDialogs());
         model.addAttribute("new_dialog", new Dialog());
+        model.addAttribute("web", CHROME_WEB_SERVER_URL);
         Dialog currentDialog = (Dialog) request.getSession().getAttribute("current_dialog");
         if (currentDialog != null) {
             model.addAttribute("dialog", currentDialog);
@@ -99,7 +104,7 @@ public class ImController extends TextWebSocketHandler {
         modelAndView.addObject("user", user);
         modelAndView.addObject("dialog", dialog);
         modelAndView.addObject("messageList", messageList);
-        modelAndView.addObject("tomcatDir", CATALINA_HOME);
+        modelAndView.addObject("web", CHROME_WEB_SERVER_URL);
 
         logger.info("opened dialog: " + dialog);
         logger.info("message list: " + messageList);
@@ -133,6 +138,41 @@ public class ImController extends TextWebSocketHandler {
     @RequestMapping("/send_message/{dialog_id}")
     public void nullMessage(@PathVariable("dialog_id") String dialog_id) throws MyNullMessageException {
         throw new MyNullMessageException("Сообщение не может быть пустым");
+    }
+
+    @PostMapping("/uploadFile")
+    public String uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws MyUploadException {
+        try {
+            String name = file.getOriginalFilename();
+            byte[] bytes = file.getBytes();
+
+            //create dir
+            File dir = new File(CATALINA_HOME);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            //create file
+            assert name != null;
+            String path = dir.getAbsolutePath() + File.separator + name.replace(" ", "_");
+            File serverFile = new File(path);
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+            stream.write(bytes);
+            stream.close();
+
+            logger.info("image saved at: " + serverFile.getAbsolutePath());
+
+            User user = (User) request.getSession().getAttribute("login_user");
+            logger.info("login_user: " + user);
+            user.setAvatar(path);
+//            imService.changeAvatar(user);
+
+            logger.info("avatar changed: " + user.getAvatar());
+
+            return "redirect:/im";
+        } catch (Exception exception) {
+            throw new MyUploadException("Выберите файл");
+        }
     }
 
     @PostMapping("/delete_dialog")
@@ -175,5 +215,11 @@ public class ImController extends TextWebSocketHandler {
     public String handleError(@NotNull Model model, @NotNull MyNullMessageException exception) {
         model.addAttribute("errorMessage", exception.getMessage());
         return "errors/400";
+    }
+
+    @ExceptionHandler(MyUploadException.class)
+    public String handleError(@NotNull Model model, @NotNull MyUploadException exception) {
+        model.addAttribute("errorMessage", exception.getMessage());
+        return "errors/ERR_FILE_NOT_FOUND";
     }
 }

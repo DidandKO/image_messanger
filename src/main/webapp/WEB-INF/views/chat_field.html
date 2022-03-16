@@ -11,8 +11,7 @@
                         <div class="field-wrapper">
                             <div class="container-field">
                                 <div class="svg-field r">
-                                    <svg width="272" height="158" viewBox="0 0 272 158" fill="none" xmlns="http://www.w3.org/2000/svg">
-
+                                    <svg th:with="src=${message.imageSrc}" width="272" height="158" viewBox="0 0 272 158" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <defs>
                                             <mask id="msk1">
                                                 <g fill="white">
@@ -20,8 +19,8 @@
                                                 </g>
                                             </mask>
                                         </defs>
-                                        <img th:if="${message.imageSrc}" th:src="${message.imageSrc}" width="272px" mask="#msk1" th:alt="${message.body}">
-                                        <img th:if="${message.imageSrc} == null" th:src="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'" width="272px" mask="#msk1" th:alt="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'">
+                                        <img th:if="${src} != null" th:src="${src}" width="272px" mask="url(#msk1)" th:alt="${message.body}">
+                                        <image th:if="${src} == null" th:href="${web} + ${message.message_id} + '.jpg'" width="272px" mask="#msk1" th:alt="${message.message_id} + '.jpg'"></image>
                                     </svg>
                                 </div>
                                 <div class="time-field r">
@@ -46,7 +45,7 @@
                                     <p th:text="${message.timestamp}"></p>
                                 </div>
                                 <div class="svg-field l">
-                                    <svg width="272" height="159" viewBox="0 0 272 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <svg th:with="src=${message.imageSrc}" width="272" height="159" viewBox="0 0 272 158" fill="none" xmlns="http://www.w3.org/2000/svg">
 
                                         <defs>
                                             <mask id="msk2">
@@ -55,8 +54,8 @@
                                                 </g>
                                             </mask>
                                         </defs>
-                                        <img th:if="${message.imageSrc}" th:src="${message.imageSrc}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
-                                        <img th:if="${message.imageSrc} == null" th:src="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'" width="272px" mask="url(#msk2)" th:alt="'file:///D:/thuggeelya/apache-tomcat-9.0.55/drawings' + ${message.message_id} + '.jpg'">
+                                        <img th:if="${src} != null" th:src="${src}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
+                                        <image th:if="${src} == null" th:href="${web} +  ${message.message_id} + '.jpg'" width="272px" mask="#msk1" th:alt="${message.message_id} + '.jpg'"></image>
                                     </svg>
                                 </div>
 

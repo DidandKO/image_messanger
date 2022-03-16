@@ -25,8 +25,4 @@ public class SettingsService {
             user.setLastName(lastName.trim());
         }
     }
-
-    public void changeAvatar(@NotNull User user, Image image) {
-        user.setAvatar(image);
-    }
 }
