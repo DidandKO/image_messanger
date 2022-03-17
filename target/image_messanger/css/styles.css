@@ -167,6 +167,7 @@ body{
 .image-div{
     width: 72px;
     height: 72px;
+    border-radius: 50%;
 }
 .field-aboutme p{
     cursor: default;
