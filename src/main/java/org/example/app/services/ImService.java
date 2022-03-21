@@ -41,8 +41,8 @@ public class ImService {
         if ((getCurrentDialogById(dialogId, user) == null)) {
             return null;
         }
-        Comparator<Message> messageComparator = Comparator.comparing(Message::getTimestamp, Comparator.naturalOrder());
-        List<Message> messageList = Objects.requireNonNull(getCurrentDialogById(dialogId, user)).getMessageList();
+        Comparator<Message> messageComparator = Comparator.comparing(Message::getTimestampToSort, Comparator.naturalOrder());
+        List<Message> messageList = FindInDb.findMessagesByDialogId(dialogId, jdbcTemplate);
         messageList.sort(messageComparator);
         return messageList;
     }
@@ -178,6 +178,7 @@ public class ImService {
         message.setMessage_id(100000000 + new Random().nextInt(900000000));
         message.setDialog_id(dialog.getDialog_id());
         message.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        message.setTimestampToSort(new Timestamp(System.currentTimeMillis()));
         message.setBody(messageBody);
         message.setSender(user);
         setAnyImageAttrToMessage(message);
@@ -194,8 +195,9 @@ public class ImService {
         params.put("image_src", message.getImageSrc());
         params.put("byte_code", Arrays.toString(message.getByte_code()));
         params.put("sender", dialog.getDialogOwner().getUser_id());
-        String exp = "INSERT INTO messages(message_id,timestamp,body,image_src,byte_code,sender)" +
-                " VALUES (:message_id,:timestamp,:body,:image_src,:byte_code,:sender)";
+        params.put("timestamp_to_sort", message.getTimestampToSort());
+        String exp = "INSERT INTO messages(message_id,timestamp,body,image_src,byte_code,sender,timestamp_to_sort)" +
+                " VALUES (:message_id,:timestamp,:body,:image_src,:byte_code,:sender,:timestamp_to_sort)";
         jdbcTemplate.update(exp, params);
         exp = "INSERT INTO messages_in_dialog(dialog_id,message_id)" +
                 " VALUES (:dialog_id,:message_id)";

@@ -106,6 +106,7 @@ public class FindInDb {
 
     private static void findMessage(@NotNull Message message, @NotNull ResultSet rs) throws SQLException {
         message.setTimestamp(rs.getString("timestamp"));
+        message.setTimestampToSort(rs.getTimestamp("timestamp_to_sort"));
         message.setBody(rs.getString("body"));
         message.setImageSrc(rs.getString("image_src"));
         if (message.getImageSrc() == null) {

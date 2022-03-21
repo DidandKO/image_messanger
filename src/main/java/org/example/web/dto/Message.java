@@ -10,11 +10,20 @@ public class Message {
     private int message_id;
     private int dialog_id;
     private String timestamp;
+    private Timestamp timestampToSort;
     private String body;
     private Image imageBody;
     private byte[] byte_code;
     private String imageSrc;
     private User sender;
+
+    public Timestamp getTimestampToSort() {
+        return timestampToSort;
+    }
+
+    public void setTimestampToSort(Timestamp timestampToSort) {
+        this.timestampToSort = timestampToSort;
+    }
 
     public User getSender() {
         return sender;
