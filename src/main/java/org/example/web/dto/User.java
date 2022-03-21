@@ -1,6 +1,5 @@
 package org.example.web.dto;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 

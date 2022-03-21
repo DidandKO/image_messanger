@@ -23,6 +23,14 @@
             let settings = document.getElementById('settings-container-id');
             let back_settings = document.getElementById('back_id');
             let change_img_btn = document.getElementById('change_photo');
+            // let show_text_btns = document.getElementsByClassName('trans-but');
+            //
+            // for (let i in show_text_btns) {
+            //     i.addEventListener('click', function () {
+            //         let show_text_div = document.getElementById(i.id + 'a')
+            //         show_text_div.setAttribute('text', i.id);
+            //     });
+            // }
 
             button_add_chat.addEventListener('click', function () {
                 field_creating_chat.style.display = 'block';
@@ -176,7 +184,7 @@
         align-items: center;
         justify-content: space-evenly;
         flex-direction: column;
-        box-shadow: inset 2px 2px 6px 0px rgb(99 109 234 / 18%), inset 1px 0px 5px rgb(80 44 44 / 0%);
+        box-shadow: inset 2px 2px 6px 0 rgb(99 109 234 / 18%), inset 1px 0px 5px rgb(80 44 44 / 0%);
     }
     .photo-field button{
         width:131px;
@@ -731,7 +739,7 @@
         height: 186px;
     }
     .container-field{
-        height: 159px;
+        height: auto;
         width: 314px;
         display: flex;
     }
@@ -816,7 +824,7 @@
         <div class="photo-field">
             <div class="image-div">
                 <img th:if="${avatar} == null" th:src="@{/images/Ellipse.png}" alt="">
-                <image th:unless="${avatar} != null" th:href="${web} + ${avatar}"></image>
+                <image th:if="${avatar} != null" th:href="${web} + ${avatar}"></image>
             </div>
             <button id="change_photo">СМЕНИТЬ ФОТО</button>
             <form id="change_photo_form" method="post" th:action="@{/im/uploadFile}" enctype="multipart/form-data">
@@ -903,9 +911,10 @@
                         <img th:src="@{/images/Ellipse.png}" alt="">
                     </div>
                     <div class="description">
-                        <div class="container_description">
+                        <div class="container_description" th:with="user=${session.login_user.email},partner=${user_dialog.partner.email},owner=${user_dialog.dialogOwner.email}">
                             <div class="title" id="title_chat_id" th:text="${user_dialog.subject}">Название чата</div>
-                            <div class="subtitle" id="subtitle_chat_id" th:text="${user_dialog.partner.email}"></div>
+                            <div class="subtitle" id="subtitle_chat_id_1" th:if="${#strings.equals(user,owner)}" th:text="${partner}"></div>
+                            <div class="subtitle" id="subtitle_chat_id_2" th:if="${#strings.equals(user,partner)}" th:text="${owner}"></div>
                         </div>
                     </div>
                     <div class="measurement" th:with="list=${user_dialog.messageList}">

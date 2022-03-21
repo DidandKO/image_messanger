@@ -123,6 +123,7 @@ public class ImController extends TextWebSocketHandler {
             return new ModelAndView("main");
         }
         Dialog dialogToUpdate = imService.getCurrentDialogById(Integer.parseInt(dialog_id), user);
+        logger.info("dialog: " + dialogToUpdate);
         assert dialogToUpdate != null;
         Message message = imService.createMessage(messageBody, dialogToUpdate, user);
         dialogToUpdate.addMessage(message);
@@ -130,6 +131,7 @@ public class ImController extends TextWebSocketHandler {
         modelAndView.addObject("dialog", dialogToUpdate);
         modelAndView.addObject("messageList", dialogToUpdate.getMessageList());
         modelAndView.addObject("tomcatDir", CATALINA_HOME);
+        modelAndView.addObject("web", CHROME_WEB_SERVER_URL);
 
         request.getSession().setAttribute("current_dialog", dialogToUpdate);
         return modelAndView;

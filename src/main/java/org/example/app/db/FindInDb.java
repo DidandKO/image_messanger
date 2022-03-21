@@ -47,7 +47,7 @@ public class FindInDb {
         List<Dialog> tempDialogs = new ArrayList<>();
         jdbcTemplate.query("SELECT * FROM dialog", (ResultSet rs, int rowNum) -> {
             Dialog dialog = new Dialog();
-            if (rs.getInt("dialog_owner") == user_id) {
+            if (rs.getInt("dialog_owner") == user_id || rs.getInt("partner") == user_id) {
                 dialog = findDialog(rs, jdbcTemplate);
                 dialog.setMessageList(findMessagesByDialogId(dialog.getDialog_id(), jdbcTemplate));
                 tempDialogs.add(dialog);
@@ -75,6 +75,8 @@ public class FindInDb {
                 jdbcTemplate.query("SELECT * FROM messages", (ResultSet rs1, int rowNum1) -> {
                     if (rs1.getInt("message_id") == message.getMessage_id()) {
                         findMessage(message, rs1);
+                        User user = findUserWithoutDialogsById(rs1.getInt("sender"), jdbcTemplate);
+                        message.setSender(user);
                     }
                     return message;
                 });
@@ -92,6 +94,9 @@ public class FindInDb {
         jdbcTemplate.query("SELECT * FROM messages", (ResultSet rs, int rowNum) -> {
             if (rs.getInt("message_id") == id) {
                 message.setMessage_id(rs.getInt("message_id"));
+                User user = findUserWithoutDialogsById(rs.getInt("sender"), jdbcTemplate);
+                user.setDialogs(findDialogsByUserId(rs.getInt("sender"), jdbcTemplate));
+                message.setSender(user);
                 findMessage(message, rs);
             }
             return message;

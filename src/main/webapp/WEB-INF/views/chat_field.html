@@ -7,7 +7,7 @@
 
                 <div class="field-visible" th:each="message : ${messageList}">
 
-                    <div class="field-line right" th:if="${message.sender} == null or ${message.sender.user_id} == ${user.user_id}">
+                    <div class="field-line right" th:if="${message.sender.email} == ${user.email}">
                         <div class="field-wrapper">
                             <div class="container-field">
                                 <div class="svg-field r">
@@ -19,8 +19,8 @@
                                                 </g>
                                             </mask>
                                         </defs>
-                                        <img th:if="${src} != null" th:src="${src}" width="272px" mask="url(#msk1)" th:alt="${message.body}">
-                                        <image th:if="${src} == null" th:href="${web} + ${message.message_id} + '.jpg'" width="272px" mask="#msk1" th:alt="${message.message_id} + '.jpg'"></image>
+                                        <image th:if="${src} != null" th:href="${src}" width="272px" mask="url(#msk1)" th:alt="${message.body}"></image>
+                                        <image th:if="${src} == null" th:href="${web} + ${message.message_id} + '.jpg'" width="272px" mask="urk(#msk1)" th:alt="${message.message_id} + '.jpg'"></image>
                                     </svg>
                                 </div>
                                 <div class="time-field r">
@@ -30,14 +30,15 @@
 
                             </div>
                             <div class="trans trans-r">
-                                <div class="trans-but">
+                                <div class="trans-but" th:id="${message.body}">
                                     <p>Aa</p>
+                                    <div th:id="${message.body} + 'a'"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="field-line left" th:if="${message.sender} == null or ${message.sender.user_id} == ${dialog.partner.user_id}">
+                    <div class="field-line left" th:if="${message.sender.email} != ${user.email} and ${user.email} == ${dialog.partner.email}">
                         <div class="field-wrapper">
                             <div class="container-field">
                                 <div class="time-field l">
@@ -45,7 +46,7 @@
                                     <p th:text="${message.timestamp}"></p>
                                 </div>
                                 <div class="svg-field l">
-                                    <svg th:with="src=${message.imageSrc}" width="272" height="159" viewBox="0 0 272 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <svg th:with="src=${message.imageSrc}" width="272" height="auto" viewBox="0 0 272 158" fill="none" xmlns="http://www.w3.org/2000/svg">
 
                                         <defs>
                                             <mask id="msk2">
@@ -54,15 +55,16 @@
                                                 </g>
                                             </mask>
                                         </defs>
-                                        <img th:if="${src} != null" th:src="${src}" width="272px" mask="url(#msk2)" th:alt="${message.body}">
-                                        <image th:if="${src} == null" th:href="${web} +  ${message.message_id} + '.jpg'" width="272px" mask="#msk1" th:alt="${message.message_id} + '.jpg'"></image>
+                                        <image th:if="${src} != null" th:href="${src}" width="272px" mask="url(#msk2)" th:alt="${message.body}"></image>
+                                        <image th:if="${src} == null" th:href="${web} +  ${message.message_id} + '.jpg'" width="272px" mask="url(#msk2)" th:alt="${message.message_id} + '.jpg'"></image>
                                     </svg>
                                 </div>
 
                             </div>
-                            <div class="trans trans-l">
+                            <div class="trans trans-l" th:id="${message.body}">
                                 <div class="trans-but">
                                     <p>Aa</p>
+                                    <div th:id="${message.body} + 'a'"></div>
                                 </div>
                             </div>
                         </div>
