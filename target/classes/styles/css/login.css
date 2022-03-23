@@ -12,7 +12,6 @@ body{
     left: 0;
     display: grid;
     place-items: center;
-
 }
 .content{
     background: #000;
@@ -20,7 +19,6 @@ body{
     height: 621px;
     background: linear-gradient(-45deg, #EA636D, #636DEA);
     border-radius: 14px;
-
 }
 .logo{
     margin: 45px 173px 34px 173px;
@@ -41,8 +39,6 @@ h1{
     height: 51px;
     border-bottom: 1px solid rgba(255,255,255,0.45);
     text-align: left;
-
-
 }
 .line_block img{
     position: absolute;
@@ -81,7 +77,6 @@ input::-webkit-input-placeholder{
 .remember label{
     color: rgba(255,255,255, 0.9);
 }
-
 .remember input{
     vertical-align: middle;
     position: absolute;
@@ -110,7 +105,7 @@ input::-webkit-input-placeholder{
 #remember_id:checked+label::before {
     border-color: #0b76ef;
     background-color: #444cb1;
-    background-image: url("../../resources/images/flag.svg");
+    background-image: url("/images/flag.svg");
 }
 #remember_id:not(:disabled):not(:checked)+label:before {
     border-color: #b3d7ff;

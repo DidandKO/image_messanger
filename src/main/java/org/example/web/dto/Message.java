@@ -1,8 +1,11 @@
 package org.example.web.dto;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class Message {
@@ -77,8 +80,8 @@ public class Message {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd MMMM HH:mm").withLocale(new Locale("ru")));
+    public void setTimestamp(@NotNull Timestamp timestamp) {
+        this.timestamp = timestamp.toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm").withLocale(new Locale("ru")));
     }
 
     public void setTimestamp(String timestamp) {
@@ -98,7 +101,7 @@ public class Message {
         return "Message{" +
                 "sender=" + sender +
                 ", message_id=" + message_id +
-                ", byte_code=" + byte_code +
+                ", byte_code=" + Arrays.toString(byte_code) +
                 ", timestamp=" + timestamp +
                 ", imageSrc=" + imageSrc +
                 ", body='" + body + '\'' +

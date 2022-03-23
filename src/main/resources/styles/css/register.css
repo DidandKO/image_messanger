@@ -14,7 +14,6 @@ body{
     align-items: center;
     align-content: center;
     justify-content: center;
-
 }
 .content{
     background: #000;
@@ -22,7 +21,6 @@ body{
     height: 621px;
     background: linear-gradient(-45deg, #EA636D, #636DEA);
     border-radius: 14px;
-
 }
 .logo{
     margin: 45px 173px 34px 173px;
@@ -43,8 +41,6 @@ h1{
     height: 51px;
     border-bottom: 1px solid rgba(255,255,255,0.45);
     text-align: left;
-
-
 }
 .line_block img{
     position: absolute;
@@ -129,4 +125,3 @@ input::-webkit-input-placeholder{
     transition-duration: .2s;
     color: #0f0e34;
 }
-

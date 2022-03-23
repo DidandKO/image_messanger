@@ -1,0 +1,113 @@
+body{
+    height: 100%;
+    width: 100%;
+    margin:0;
+    font-family: Montserrat, serif;
+}
+.footer{
+    margin: 57px;
+    width: 1174px;
+    height: 74px;
+    display: flex;
+    margin:20px auto 0 auto;
+}
+.main_logo{
+    margin-left: 0;
+    width:187px;
+}
+.footer_info{
+    color: #1A1E53;
+    margin:auto;
+    width: 355px;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+.signinup {
+    display: flex;
+    width: 390px;
+    justify-content: flex-end;
+    align-items: center;
+}
+.signinup input{
+    width: 171px;
+    height: 35px;
+    border-radius: 30px;
+    background: #636DEA;
+    font-family: Montserrat, sans-serif;
+    border:none;
+    font-size: 15px;
+    color: #fff;
+    font-weight: 500;
+    transition-duration: 0.2s;
+}
+.signinup input:hover{
+    background: #3A42A5;
+    transition-duration: 0.2s;
+}
+.signinup input:last-child{
+    margin-left: 30px;
+}
+.main_info{
+    height: 80vh;
+    width: 1174px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+.main_info .container{
+    width: 400px;
+    display: grid;
+    place-items: center;
+    justify-items: start;
+}
+.main_info h1{
+    margin: 0;
+    font-size: 72px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #636DEA, #EA636D);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.main_info .container h1:before{
+    content: 'Общайтесь ';
+    font-size: 81px;
+}
+.main_info .container h3{
+    font-size: 19px;
+    font-weight: normal;
+    color: #636DEA;
+}
+.main_info .container h3:before{
+    content: 'Теперь с помощью Cha';
+    color: #1A1E53;
+}
+.main_info .container h3:after{
+    content: ' вы можете общаться картинками';
+    color: #1A1E53;
+}
+.main_info .container input{
+    width: 269px;
+    height: 55px;
+    border-radius: 30px;
+    background: #636DEA;
+    outline: none;
+    border:none;
+    font-size: 19px;
+    font-weight: 600;
+    color: #FFFFFF;
+    transition-duration: 0.2s;
+}
+.main_info .container input:hover{
+    background: #3A42A5;
+    transition-duration: 0.2s;
+}
+.main_img{
+    margin-top: 66px;
+    text-align: end;
+    width: 100%;
+}
+.main_img img{
+    width:580px;
+}
