@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 @Controller
@@ -33,7 +34,7 @@ public class ImController extends TextWebSocketHandler {
 
     private static final Object CHROME_WEB_SERVER_URL = "http://127.0.0.1:8887/";
     final String CATALINA_HOME = System.getProperty("catalina.home") + File.separator + "drawings";
-    private ImService imService;
+    private final ImService imService;
     Logger logger = Logger.getLogger("logger");
 
     @Autowired
@@ -55,13 +56,6 @@ public class ImController extends TextWebSocketHandler {
         logger.info("dialog_list: " + user.getDialogs());
         model.addAttribute("new_dialog", new Dialog());
         model.addAttribute("web", CHROME_WEB_SERVER_URL);
-        Dialog currentDialog = (Dialog) request.getSession().getAttribute("current_dialog");
-        if (currentDialog != null) {
-            model.addAttribute("dialog", currentDialog);
-            logger.info("dialog: " + currentDialog);
-            model.addAttribute("messageList", currentDialog.getMessageList());
-            logger.info("messageList: " + currentDialog.getMessageList());
-        }
         return "im";
     }
 
@@ -97,10 +91,15 @@ public class ImController extends TextWebSocketHandler {
             return new ModelAndView("main");
         }
         Dialog dialog = imService.getCurrentDialogById(Integer.parseInt(dialog_id), user);
-        assert dialog != null;
-        dialog.setNewMessagesCount(0);
+        if (dialog == null) {
+            return new ModelAndView("im");
+        }
         List<Message> messageList = imService.getDialogMessageList(Integer.parseInt(dialog_id), user);
-
+        if (messageList != null && dialog.getNewMessagesCount() > 0) {
+            if (!messageList.get(messageList.size() - 1).getSender().getEmail().equals(user.getEmail())) {
+                dialog.setNewMessagesCount(0);
+            }
+        }
         modelAndView.addObject("user", user);
         modelAndView.addObject("dialog", dialog);
         modelAndView.addObject("messageList", messageList);
@@ -127,13 +126,14 @@ public class ImController extends TextWebSocketHandler {
         assert dialogToUpdate != null;
         Message message = imService.createMessage(messageBody, dialogToUpdate, user);
         dialogToUpdate.addMessage(message);
+        dialogToUpdate.setNewMessagesCount(dialogToUpdate.getNewMessagesCount() + 1);
+        imService.updateDialogByNewMessagesCount(dialogToUpdate);
 
         modelAndView.addObject("dialog", dialogToUpdate);
         modelAndView.addObject("messageList", dialogToUpdate.getMessageList());
         modelAndView.addObject("tomcatDir", CATALINA_HOME);
         modelAndView.addObject("web", CHROME_WEB_SERVER_URL);
 
-        request.getSession().setAttribute("current_dialog", dialogToUpdate);
         return modelAndView;
     }
 

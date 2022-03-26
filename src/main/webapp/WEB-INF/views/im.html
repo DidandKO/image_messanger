@@ -125,9 +125,13 @@
                         </div>
                     </div>
                     <div class="measurement" th:with="list=${user_dialog.messageList}">
-                        <div th:unless="${#lists.isEmpty(list)}" th:text="${list[__${#lists.size(list) - 1}__].timestamp}" class="date"></div>
-                        <div class="counter">
-                            <div th:if="${user_dialog.newMessagesCount} > 0" class="circle"><p th:text="${user_dialog.newMessagesCount}"></p></div>
+                        <div th:unless="${#lists.isEmpty(list)}" th:with="lastMsg=${list[__${#lists.size(list) - 1}__]}">
+                            <div th:text="${lastMsg.timestamp}" class="date"></div>
+                            <div th:if="${user_dialog.newMessagesCount} > 0" class="counter">
+                                <div th:if="${lastMsg.sender.email} != ${session.login_user.email}" class="circle">
+                                    <p th:text="${user_dialog.newMessagesCount}"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

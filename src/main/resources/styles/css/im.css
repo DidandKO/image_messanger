@@ -615,7 +615,7 @@ a{
     vertical-align: center;
     width:30px;
     height: 30px;
-    background-image: url("/images/log_out.svg");
+    background-image: url("/../../images/log_out.svg");
     background-repeat: no-repeat;
 }
 #burger_logo_user{

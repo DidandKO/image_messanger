@@ -12,10 +12,6 @@ public class Dialog {
     private String subject;
     private int newMessagesCount;
 
-    public Dialog() {
-        this.newMessagesCount = 0;
-    }
-
     public int getNewMessagesCount() {
         return newMessagesCount;
     }
@@ -93,6 +89,7 @@ public class Dialog {
                 ", partner=" + partner +
                 ", subject='" + subject + '\'' +
                 ", numberOfMessages=" + getMessageList().size() +
+                ", unreadOfMessages=" + newMessagesCount+
                 '}';
     }
 }

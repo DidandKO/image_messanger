@@ -10,6 +10,7 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -225,6 +226,14 @@ public class ImService {
         String exp = "INSERT INTO dialog(dialog_id,dialog_owner,partner,subject,new_messages_count)" +
                 " VALUES (:dialog_id,:dialog_owner,:partner,:subject,:new_messages_count)";
         jdbcTemplate.update(exp, params);
+        logger.info("dialog into db - success");
+    }
+
+    public void updateDialogByNewMessagesCount(@NotNull Dialog dialog) {
+        String exp = "UPDATE dialog SET new_messages_count=:new_messages_count WHERE dialog_id=:dialog_id";
+        jdbcTemplate.update(exp, new MapSqlParameterSource()
+                .addValue("new_messages_count", dialog.getNewMessagesCount())
+                .addValue("dialog_id", dialog.getDialog_id()));
         logger.info("dialog into db - success");
     }
 
