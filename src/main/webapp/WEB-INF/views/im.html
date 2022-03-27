@@ -5,6 +5,9 @@
     <title>Диалоги</title>
     <link th:href="@{/styles/css/im.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/styles/css/font_styles.css}" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script th:src="@{/js/im.js}"></script>
 </head>
@@ -39,7 +42,7 @@
         <div class="edit-field">
             <div class="edit-field-wrap">
                 <div class="edit-str">
-                    <div class="arrow-wrapp"><img th:src="@{/images/username.svg}" alt=""></div>
+                    <div class="arrow-wrapp"><img th:src="@{/images/user.svg}" alt=""></div>
                     <div class="text-div"><p id="username_edited_id">Имя</p>
                         <p th:text="${name}">Имя пользователя</p></div>
                     <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
@@ -51,7 +54,7 @@
             <div class="edit-field-wrap">
                 <div class="edit-str">
                     <div class="arrow-wrapp"><img class="pass_ico" th:src="@{/images/password.svg}" alt=""></div>
-                    <div class="text-div"><p id="password_edited_id">&#183;&#183;&#183;&#183;&#183;&#183;&#183;</p>
+                    <div class="text-div"><p id="password_edited_id">&#183;&#183;&#183;&#183;&#183;&#183;&#183;&#183;</p>
                         <p>Пароль</p>
                     </div>
                     <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
@@ -60,11 +63,9 @@
         </div>
         <div class="edit-line"></div>
         <div th:if="${info} == null" class="field-aboutme">
-            <label>
-                <input type="text" placeholder="О себе">
-            </label>
+            <input type="text" placeholder="О себе">
             <div class="line-aboutme"></div>
-            <h5>Расскажите о себе</h5>
+            <p>Расскажите о себе</p>
         </div>
         <div th:if="${info} != null" class="field-aboutme">
             <p th:text="${info}"></p>
@@ -72,11 +73,8 @@
     </div>
 
     <div class="chatroom" id="chat_room_id">
-        <div class="nav_menu" id="nav_menu_id">
+        <div class="nav_menu nav-hide" id="nav_menu_id">
             <div class="user_logo">
-                <div class="burger_logo" id="burger_logo_user">
-                    <img th:src="@{/images/burger_gray.svg}" alt="">
-                </div>
                 <img th:src="@{/images/Ellipse_logo.png}" alt="">
             </div>
             <div class="user_name">
@@ -98,9 +96,7 @@
             <div class="burger_logo" id="burger_logo_id"><img th:src="@{/images/burger.svg}" alt=""></div>
             <div class="search_input">
                 <button id="search_but_id" class="search_but"><img th:src="@{/images/search_but.svg}" alt=""></button>
-                <label>
-                    <input type="text" placeholder="Поиск">
-                </label>
+                <input type="text" placeholder="Поиск">
             </div>
         </div>
 
@@ -125,9 +121,11 @@
                         </div>
                     </div>
                     <div class="measurement" th:with="list=${user_dialog.messageList}">
-                        <div th:unless="${#lists.isEmpty(list)}" th:with="lastMsg=${list[__${#lists.size(list) - 1}__]}">
-                            <div th:text="${lastMsg.timestamp}" class="date"></div>
-                            <div th:if="${user_dialog.newMessagesCount} > 0" class="counter">
+                        <div class="date" th:unless="${#lists.isEmpty(list)}" th:with="lastMsg=${list[__${#lists.size(list) - 1}__]}">
+                            <div th:text="${lastMsg.timestamp}"></div>
+                        </div>
+                        <div class="counter" th:unless="${#lists.isEmpty(list)}" th:with="lastMsg=${list[__${#lists.size(list) - 1}__]}">
+                            <div th:if="${user_dialog.newMessagesCount} > 0">
                                 <div th:if="${lastMsg.sender.email} != ${session.login_user.email}" class="circle">
                                     <p th:text="${user_dialog.newMessagesCount}"></p>
                                 </div>
@@ -144,23 +142,19 @@
                         <div class="logo"><img th:src="@{/images/logo.svg}" alt=""></div>
                         <div class="title_creating_chat"><p>Создание чата</p></div>
                         <div class="input_wrapper">
-                            <label for="text_id"></label>
-                            <input type="text" id="text_id" th:field="*{subject}" placeholder="Название чата" required>
+                            <input type="text" id="text_id" th:field="*{subject}" placeholder="Введите название чата" required>
                         </div>
                         <div class="input_wrapper">
-                            <label>
-                                <input type="text" th:field="*{partner.email}" placeholder="Собеседник">
-                            </label>
+                            <input type="text" th:field="*{partner.email}" placeholder="Введите собеседника">
                         </div>
                         <input type="submit" value='Создать' id="creating_chat_id">
                     </div>
                 </div>
             </div>
         </form>
-    </div>
-
-    <div class="add_chat"><button id="add_chat_id">
-        <img th:src="@{/images/add_chat.svg}" alt=""></button>
+        <div class="add_chat "><button id="add_chat_id" class="add_chat-hide">
+            <img th:src="@{/images/add_chat.svg}" alt=""></button>
+        </div>
     </div>
 
     <div class="chat_field" id="chat_field_id">
@@ -173,15 +167,19 @@
 
         <div class="chat-field-wrapper" id="chat_field_wrapper_id"></div>
     </div>
+    <div id="filter"></div>
 </div>
-
-<div id="filter"></div>
 
 <script>
     let chatFieldWrapper = $("#chat_field_wrapper_id");
     let chatField = $("#chat_field_id");
 
     function openChat(element, dialog_id) {
+        let defaultFill = $(".container_chat_info");
+        defaultFill.css("background","none");
+        let messageFillId = '#'+dialog_id;
+        let messageFill = $(messageFillId);
+        messageFill.css("background","#4750BF");
         chatFieldWrapper.css("display", "block");
         $("#hello_logo_id").css("display", "none");
         chatField.css("display", "block");
@@ -200,6 +198,17 @@
         messageField.val("");
         $('#subtitle_chat_id').attr('text', message_body);
         $('#subtitle_chat_no_messages_id').attr('text', message_body);
+    }
+
+    function trans(elem) {
+        elem.style.width = '261px';
+        elem.getElementsByTagName("p")['0'].textContent = elem.id;
+        elem.closest(".trans").getElementsByTagName("div")[1].style.display = 'block';
+    }
+    function backtrans(elem) {
+        elem.closest(".trans").getElementsByTagName("p")['0'].textContent = 'Aa';
+        elem.closest(".trans").getElementsByTagName("div")["0"].style.width = "30px";
+        elem.style.display = 'none';
     }
 </script>
 </body>

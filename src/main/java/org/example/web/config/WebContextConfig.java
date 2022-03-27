@@ -23,8 +23,8 @@ public class WebContextConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");
         registry.addResourceHandler("/styles/css/**").addResourceLocations("classpath:/styles/css/");
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
-//        registry.addResourceHandler("/fonts/Montserrat/static/**")
-//                .addResourceLocations("classpath:/fonts/Montserrat/static/");
+        registry.addResourceHandler("/fonts/Montserrat/static/**")
+                .addResourceLocations("classpath:/fonts/Montserrat/static/");
     }
 
     @Bean

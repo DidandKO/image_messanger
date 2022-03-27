@@ -1,18 +1,18 @@
 @font-face {
     font-family: Montserrat;
-    src: url(/fonts/Montserrat/static/Montserrat-SemiBold.ttf) format("truetype");
+    src: url(../../fonts/Montserrat/static/Montserrat-SemiBold.woff) format("woff");
     font-style: normal;
     font-weight: 600;
 }
 @font-face {
     font-family: Montserrat;
-    src: url(https://github.com/JulietaUla/Montserrat/blob/master/fonts/ttf/Montserrat-Medium.ttf) format("truetype");
+    src: url(../../fonts/Montserrat/static/Montserrat-Medium.woff) format("woff");
     font-style: normal;
     font-weight: 500;
 }
 @font-face {
     font-family: Montserrat;
-    src: url(/fonts/Montserrat/static/Montserrat-Regular.ttf) format("truetype");
+    src: url(../../fonts/Montserrat/static/Montserrat-Regular.woff) format("woff");
     font-style: normal;
     font-weight: normal;
 }

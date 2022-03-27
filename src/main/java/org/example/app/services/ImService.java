@@ -30,7 +30,6 @@ public class ImService {
     final String FIRST_FOUND_IMAGE_A_CLASS = "serp-item__link";
     final String FIRST_FOUND_IMAGE_CLASS = "serp-item__thumb justifier__thumb";
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private StorageService storageService;
     Logger logger = Logger.getLogger("logger");
 
     public ImService(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -195,7 +194,7 @@ public class ImService {
         params.put("body", message.getBody());
         params.put("image_src", message.getImageSrc());
         params.put("byte_code", Arrays.toString(message.getByte_code()));
-        params.put("sender", dialog.getDialogOwner().getUser_id());
+        params.put("sender", message.getSender().getUser_id());
         params.put("timestamp_to_sort", message.getTimestampToSort());
         String exp = "INSERT INTO messages(message_id,timestamp,body,image_src,byte_code,sender,timestamp_to_sort)" +
                 " VALUES (:message_id,:timestamp,:body,:image_src,:byte_code,:sender,:timestamp_to_sort)";
