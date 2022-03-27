@@ -238,18 +238,10 @@ public class ImService {
     }
 
     public void changeAvatar(@NotNull User user) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", user.getUser_id());
-        params.put("email", user.getEmail());
-        params.put("password", user.getPassword());
-        params.put("name", user.getName());
-        params.put("lastname", user.getLastName());
-        params.put("offline_time_in_minutes", user.getOfflineTimeInMinutes());
-        params.put("info", user.getInfo());
-        params.put("avatar", user.getAvatar());
-        String exp = "INSERT INTO users_table(user_id,email,password,name,lastname,offline_time_in_minutes,info,avatar)" +
-                " VALUES (:id,:email,:password,:name,:lastname,:offline_time_in_minutes,:info,:avatar)";
-        jdbcTemplate.update(exp, params);
+        String exp = "UPDATE users_table SET avatar=:avatar WHERE user_id=:user_id";
+        jdbcTemplate.update(exp, new MapSqlParameterSource()
+                .addValue("avatar", user.getAvatar())
+                .addValue("user_id", user.getUser_id()));
         logger.info("user into db - success");
     }
 }

@@ -167,7 +167,7 @@ public class ImController extends TextWebSocketHandler {
             User user = (User) request.getSession().getAttribute("login_user");
             logger.info("login_user: " + user);
             user.setAvatar(path);
-//            imService.changeAvatar(user);
+            imService.changeAvatar(user);
 
             logger.info("avatar changed: " + user.getAvatar());
 

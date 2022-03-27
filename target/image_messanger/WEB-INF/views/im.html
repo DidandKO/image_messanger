@@ -51,7 +51,7 @@
             <div class="edit-field-wrap">
                 <div class="edit-str">
                     <div class="arrow-wrapp"><img class="pass_ico" th:src="@{/images/password.svg}" alt=""></div>
-                    <div class="text-div"><p id="password_edited_id">&#183;&#183;&#183;&#183;&#183;&#183;&#183;&#183;</p>
+                    <div class="text-div"><p id="password_edited_id">&#183;&#183;&#183;&#183;&#183;&#183;&#183;</p>
                         <p>Пароль</p>
                     </div>
                     <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
@@ -60,7 +60,9 @@
         </div>
         <div class="edit-line"></div>
         <div th:if="${info} == null" class="field-aboutme">
-            <input type="text" placeholder="О себе">
+            <label>
+                <input type="text" placeholder="О себе">
+            </label>
             <div class="line-aboutme"></div>
             <h5>Расскажите о себе</h5>
         </div>
@@ -96,7 +98,9 @@
             <div class="burger_logo" id="burger_logo_id"><img th:src="@{/images/burger.svg}" alt=""></div>
             <div class="search_input">
                 <button id="search_but_id" class="search_but"><img th:src="@{/images/search_but.svg}" alt=""></button>
-                <input type="text" placeholder="Поиск">
+                <label>
+                    <input type="text" placeholder="Поиск">
+                </label>
             </div>
         </div>
 
@@ -107,16 +111,27 @@
                         <img th:src="@{/images/Ellipse.png}" alt="">
                     </div>
                     <div class="description">
-                        <div class="container_description" th:with="user=${session.login_user.email},partner=${user_dialog.partner.email},owner=${user_dialog.dialogOwner.email}">
+                        <div class="container_description" th:with=
+                                "user=${session.login_user.email},
+                             partner=${user_dialog.partner.email},
+                             owner=${user_dialog.dialogOwner.email}">
                             <div class="title" id="title_chat_id" th:text="${user_dialog.subject}">Название чата</div>
-                            <div class="subtitle" id="subtitle_chat_id_1" th:if="${#strings.equals(user,owner)}" th:text="${partner}"></div>
-                            <div class="subtitle" id="subtitle_chat_id_2" th:if="${#strings.equals(user,partner)}" th:text="${owner}"></div>
+                            <div class="subtitle" id="subtitle_chat_id_1"
+                                 th:if="${#strings.equals(user,owner)}"
+                                 th:text="${partner}"></div>
+                            <div class="subtitle" id="subtitle_chat_id_2"
+                                 th:if="${#strings.equals(user,partner)}"
+                                 th:text="${owner}"></div>
                         </div>
                     </div>
                     <div class="measurement" th:with="list=${user_dialog.messageList}">
-                        <div th:unless="${#lists.isEmpty(list)}" th:text="${list[__${#lists.size(list) - 1}__].timestamp}" class="date"></div>
-                        <div class="counter">
-                            <div th:if="${user_dialog.newMessagesCount} > 0" class="circle"><p th:text="${user_dialog.newMessagesCount}"></p></div>
+                        <div th:unless="${#lists.isEmpty(list)}" th:with="lastMsg=${list[__${#lists.size(list) - 1}__]}">
+                            <div th:text="${lastMsg.timestamp}" class="date"></div>
+                            <div th:if="${user_dialog.newMessagesCount} > 0" class="counter">
+                                <div th:if="${lastMsg.sender.email} != ${session.login_user.email}" class="circle">
+                                    <p th:text="${user_dialog.newMessagesCount}"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,10 +144,13 @@
                         <div class="logo"><img th:src="@{/images/logo.svg}" alt=""></div>
                         <div class="title_creating_chat"><p>Создание чата</p></div>
                         <div class="input_wrapper">
-                            <input type="text" id="text_id" th:field="*{subject}" placeholder="Введите название чата" required>
+                            <label for="text_id"></label>
+                            <input type="text" id="text_id" th:field="*{subject}" placeholder="Название чата" required>
                         </div>
                         <div class="input_wrapper">
-                            <input type="text" th:field="*{partner.email}" placeholder="Введите собеседника">
+                            <label>
+                                <input type="text" th:field="*{partner.email}" placeholder="Собеседник">
+                            </label>
                         </div>
                         <input type="submit" value='Создать' id="creating_chat_id">
                     </div>
@@ -184,6 +202,5 @@
         $('#subtitle_chat_no_messages_id').attr('text', message_body);
     }
 </script>
-
 </body>
 </html>

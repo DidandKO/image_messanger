@@ -13,11 +13,11 @@
         <h1>ВХОД</h1>
         <div class="line_block">
             <img th:src="@{/images/user.svg}" alt="U">
-            <input type="text" th:field="*{email}" id="login_id" placeholder="Логин">
+            <label for="login_id"></label><input type="text" th:field="*{email}" id="login_id" placeholder="Логин">
         </div>
         <div class="line_block">
             <img th:src="@{/images/password.svg}" alt="P">
-            <input type="password" th:field="*{password}" id="password_id" placeholder="Пароль">
+            <label for="password_id"></label><input type="password" th:field="*{password}" id="password_id" placeholder="Пароль">
         </div>
         <div class="remember">
             <input id="remember_id" type="checkbox">
