@@ -5,6 +5,9 @@
     <title>Вход</title>
     <link th:href="@{/styles/css/login.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/styles/css/font_styles.css}" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <form method="post" th:action="@{/login/auth}" class="block" th:object="${user}">
@@ -30,7 +33,7 @@
                 </div>
                 <div class="rem_pas">
                     <a href="https://www.youtube.com/watch?v=QhWPeEJbRp0"><span>Забыли пароль?</span></a>
-                    <a href="register_page.html"><span>Не зарегистрировались?</span></a>
+                    <a th:href="@{/register}"><span>Не зарегистрировались?</span></a>
                 </div>
             </div>
         </div>
