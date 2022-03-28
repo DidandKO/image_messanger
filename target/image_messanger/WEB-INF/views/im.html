@@ -75,7 +75,8 @@
     <div class="chatroom" id="chat_room_id">
         <div class="nav_menu nav-hide" id="nav_menu_id">
             <div class="user_logo">
-                <img th:src="@{/images/Ellipse_logo.png}" alt="">
+                <img th:if="${user.avatar} == null" th:src="@{/images/Ellipse_logo.png}" alt="">
+                <image th:if="${user.avatar} != null" th:href="${user.avatar}"></image>
             </div>
             <div class="user_name">
                 <h3 th:text="${user.email}"></h3>

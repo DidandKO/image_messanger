@@ -23,7 +23,10 @@
                                     </svg>
                                 </div>
                                 <div class="time-field r">
-                                    <div class="logo_chat"><img th:src="@{/images/Ellipse_chat_field.png}" alt=""></div>
+                                    <div class="logo_chat">
+                                        <img th:if="${user.avatar} == null" th:src="@{/images/Ellipse_chat_field.png}" alt="">
+                                        <image th:if="${user.avatar} != null" th:href="${user.avatar}"></image>
+                                    </div>
                                     <p th:text="${message.timestamp}"></p>
                                 </div>
 
@@ -41,7 +44,10 @@
                         <div class="field-wrapper">
                             <div class="container-field">
                                 <div class="time-field l">
-                                    <div class="logo_chat"><img th:src="@{/images/Ellipse_chat_field.png}" alt=""></div>
+                                    <div class="logo_chat">
+                                        <img th:if="${user.avatar} == null" th:src="@{/images/Ellipse_chat_field.png}" alt="">
+                                        <image th:if="${user.avatar} != null" th:href="${user.avatar}"></image>
+                                    </div>
                                     <p th:text="${message.timestamp}"></p>
                                 </div>
                                 <div class="svg-field l">

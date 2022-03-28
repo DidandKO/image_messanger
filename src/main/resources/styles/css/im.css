@@ -619,6 +619,9 @@ select:-webkit-autofill:focus {
 .user_logo img{
     width: 86px;
 }
+.user_logo image{
+    width: 86px;
+}
 .user_name{
     font-size: 15px;
     font-weight: normal;
@@ -813,6 +816,9 @@ a{
     right: 0;
 }
 .logo_chat img{
+    width: 38px;
+}
+.logo_chat image{
     width: 38px;
 }
 .l .logo_chat{
