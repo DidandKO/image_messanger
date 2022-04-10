@@ -177,29 +177,6 @@ public class ImController extends TextWebSocketHandler {
         }
     }
 
-    @PostMapping("/delete_dialog")
-    public String deleteDialog(@NotNull Model model, @SessionAttribute("login_user") User user) {
-        if (user == null) {
-            return "login_page";
-        }
-        Dialog dialogToDelete = imService.getCurrentDialogById(Integer.parseInt(getDialogId(model)), user);
-        user.deleteDialog(dialogToDelete);
-        return "redirect:/im";
-    }
-
-    @PostMapping("/delete_message")
-    public String deleteMessage(@NotNull Model model,
-                                @ModelAttribute("messageToDelete") Message messageToDelete,
-                                @SessionAttribute("login_user") User user) {
-        if (user == null) {
-            return "login_page";
-        }
-        Dialog newDialog = imService.getCurrentDialogById(Integer.parseInt(getDialogId(model)), user);
-        assert newDialog != null;
-        newDialog.deleteMessage(messageToDelete);
-        return "redirect:/im/" + getDialogId(model);
-    }
-
     @NotNull
     private static String getDialogId(@NotNull Model model) {
         Dialog dialog = (Dialog) model.getAttribute("dialog");
