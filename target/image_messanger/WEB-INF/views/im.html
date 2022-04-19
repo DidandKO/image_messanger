@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="all_chat">
-    <div class="settings-container" id="settings-container-id" th:object="${session.login_user}">
+    <div class="settings-container" id="settings-container-id">
         <div class="title-settings">
             <div class="arrow-wrapp">
                 <div id='back_id' class="arrow-back"><img th:src="@{/images/arrow.svg}" alt=""></div>
@@ -22,8 +22,8 @@
         </div>
         <div class="photo-field">
             <div class="image-div">
-                <img th:if="${avatar} == null" th:src="@{/images/Ellipse.png}" alt="">
-                <image th:if="${avatar} != null" th:href="${web} + ${avatar}"></image>
+                <img th:if="${user.avatar} == null" th:src="@{/images/Ellipse.png}" alt="">
+                <image th:if="${user.avatar} != null" th:src="${user.avatar}" class="round"></image>
             </div>
             <button id="change_photo">СМЕНИТЬ ФОТО</button>
             <form id="change_photo_form" method="post" th:action="@{/im/uploadFile}" enctype="multipart/form-data">
@@ -44,10 +44,10 @@
                 <div class="edit-str">
                     <div class="arrow-wrapp"><img th:src="@{/images/user.svg}" alt=""></div>
                     <div class="text-div"><p id="username_edited_id">Имя</p>
-                        <p th:text="${name}">Имя пользователя</p></div>
+                        <p th:text="${user.name}">Имя пользователя</p></div>
                     <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
                     <div class="text-div"><p id="lastname_edited_id">Фамилия</p>
-                        <p th:text="${lastName}">Фамилия пользователя</p></div>
+                        <p th:text="${user.lastName}">Фамилия пользователя</p></div>
                     <div class="edit-pen"><img th:src="@{/images/pen_edit.svg}" alt=""></div>
                 </div>
             </div>
@@ -62,21 +62,21 @@
             </div>
         </div>
         <div class="edit-line"></div>
-        <div th:if="${info} == null" class="field-aboutme">
+        <div th:if="${user.info} == null" class="field-aboutme">
             <input type="text" placeholder="О себе">
             <div class="line-aboutme"></div>
             <p>Расскажите о себе</p>
         </div>
-        <div th:if="${info} != null" class="field-aboutme">
-            <p th:text="${info}"></p>
+        <div th:if="${user.info} != null" class="field-aboutme">
+            <p th:text="${user.info}" th:field="*{user.info}"></p>
         </div>
     </div>
 
     <div class="chatroom" id="chat_room_id">
         <div class="nav_menu nav-hide" id="nav_menu_id">
             <div class="user_logo">
-                <img th:if="${user.avatar} == null" th:src="@{/images/Ellipse_logo.png}" alt="">
-                <image th:if="${user.avatar} != null" th:href="${user.avatar}"></image>
+                <img th:if="${session.login_user.avatar} == null " th:src="@{/images/Ellipse_logo.png}" alt="">
+                <image th:if="${session.login_user.avatar} != null" th:src="${session.login_user.avatar}" class="round"></image>
             </div>
             <div class="user_name">
                 <h3 th:text="${user.email}"></h3>

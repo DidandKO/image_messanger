@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 @Controller
@@ -35,7 +36,7 @@ public class LoginController {
 
     @NotNull
     @PostMapping("/login/auth")
-    public String authenticate(@ModelAttribute("user") User user, HttpServletRequest request) throws MyLoginException {
+    public String authenticate(@ModelAttribute("user") User user, HttpServletRequest request) throws MyLoginException, IOException {
         logger.info("try login with user: " + user);
         if (loginService.authenticate(user)) {
             user = loginService.findRegisteredUserByLogin(user.getEmail());
@@ -55,12 +56,13 @@ public class LoginController {
     }
 
     @PostMapping("/register/auth")
-    public String register(@ModelAttribute("user") User user, @NotNull HttpServletRequest request) throws MyLoginException {
+    public String register(@ModelAttribute("user") User user, @NotNull HttpServletRequest request) throws MyLoginException, IOException {
         if (loginService.register(user)) {
             logger.info("registration fail back to login");
             throw new MyLoginException("User with this e-mail has already been registered");
         } else {
             user.setUser_id(user.hashCode());
+            user.setAvatar(loginService.setDefaultAvatarToUser(user));
             request.getSession().setAttribute("login_user", user);
             logger.info("registration OK redirect to im");
             logger.info("new user: " + user);

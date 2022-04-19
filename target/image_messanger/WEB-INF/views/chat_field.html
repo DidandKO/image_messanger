@@ -18,14 +18,14 @@
                                                     <path d="M249.368 1H13.8007C9.32027 1 7.08007 1 5.36878 1.87194C3.86349 2.63892 2.63965 3.86276 1.87266 5.36804C1.00071 7.07933 1.00069 9.31953 1.00066 13.7999L1.00037 57.4798L1 113.96V144.66C1 149.141 1 151.381 1.87195 153.092C2.63893 154.597 3.86278 155.821 5.36808 156.588C7.07937 157.46 9.31958 157.46 13.8 157.46H250.072C252.04 157.46 253.024 157.46 253.998 157.365C254.863 157.28 255.722 157.138 256.569 156.942C257.523 156.72 258.455 156.405 260.319 155.775L260.838 155.6C261.333 155.433 261.58 155.349 261.833 155.309C262.058 155.274 262.286 155.265 262.513 155.281C262.769 155.299 263.022 155.362 263.529 155.487L271.5 157.46L270.894 156.961C267.687 154.315 266.084 152.992 264.93 151.365C263.909 149.924 263.15 148.314 262.688 146.608C262.167 144.684 262.167 142.605 262.167 138.447V110.11L262.168 13.8001V13.7999C262.168 9.31956 262.168 7.07938 261.296 5.36811C260.529 3.8628 259.305 2.63895 257.8 1.87196C256.088 1 253.848 1 249.368 1Z" stroke="white" stroke-width="1"/>                                                </g>
                                             </mask>
                                         </defs>
-                                        <image th:if="${src} != null" th:href="${src}" width="272px" mask="url(#msk1)" th:alt="${message.body}"></image>
-                                        <image th:if="${src} == null" th:href="${web} + ${message.message_id} + '.jpg'" width="272px" mask="urk(#msk1)" th:alt="${message.message_id} + '.jpg'"></image>
+                                        <image th:if="${src} != null" th:href="${src}" height="165px" width="272px" mask="url(#msk1)" th:alt="${message.body}"></image>
+                                        <image th:if="${src} == null" th:href="${web} + ${message.message_id} + '.jpg'" width="272px" height="165px" mask="urk(#msk1)" th:alt="${message.message_id} + '.jpg'"></image>
                                     </svg>
                                 </div>
                                 <div class="time-field r">
                                     <div class="logo_chat">
-                                        <img th:if="${user.avatar} == null" th:src="@{/images/Ellipse_chat_field.png}" alt="">
-                                        <image th:if="${user.avatar} != null" th:href="${user.avatar}"></image>
+                                        <img th:if="${session.login_user.avatar} == null" th:src="@{/images/Ellipse_chat_field.png}" alt="">
+                                        <image th:if="${session.login_user.avatar} != null" th:src="${session.login_user.avatar}" class="round"></image>
                                     </div>
                                     <p th:text="${message.timestamp}"></p>
                                 </div>
@@ -45,8 +45,8 @@
                             <div class="container-field">
                                 <div class="time-field l">
                                     <div class="logo_chat">
-                                        <img th:if="${user.avatar} == null" th:src="@{/images/Ellipse_chat_field.png}" alt="">
-                                        <image th:if="${user.avatar} != null" th:href="${user.avatar}"></image>
+                                        <img th:if="${message.sender.avatar} == null" th:src="@{/images/Ellipse_chat_field.png}" alt="">
+                                        <image th:if="${message.sender.avatar} != null" th:src="${message.sender.avatar}" class="round"></image>
                                     </div>
                                     <p th:text="${message.timestamp}"></p>
                                 </div>
@@ -60,8 +60,8 @@
                                                 </g>
                                             </mask>
                                         </defs>
-                                        <image th:if="${src} != null" th:href="${src}" width="272px" mask="url(#msk2)" th:alt="${message.body}"></image>
-                                        <image th:if="${src} == null" th:href="${web} +  ${message.message_id} + '.jpg'" width="272px" mask="url(#msk2)" th:alt="${message.message_id} + '.jpg'"></image>
+                                        <image th:if="${src} != null" th:href="${src}" height="165px" width="272px" mask="url(#msk2)" th:alt="${message.body}"></image>
+                                        <image th:if="${src} == null" th:href="${web} +  ${message.message_id} + '.jpg'" width="272px" height="165px" mask="url(#msk2)" th:alt="${message.message_id} + '.jpg'"></image>
                                     </svg>
                                 </div>
 
